@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Grid xmlns:mx="http://www.adobe.com/2006/mxml" width="110" height="35" xmlns:filters="flash.filters.*">
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			public var dataProvider:ArrayCollection;
+		]]>
+	</mx:Script>
+	
+	<mx:GridRow width="100%" height="100%">
+		<mx:GridItem id="col1" backgroundColor="{dataProvider.getItemAt(0) as uint}" width="100%" height="100%"/>
+		<mx:GridItem id="col2" backgroundColor="{dataProvider.getItemAt(1) as uint}" width="100%" height="100%"/>
+		<mx:GridItem id="col3" backgroundColor="{dataProvider.getItemAt(2) as uint}" width="100%" height="100%"/>
+		<mx:GridItem id="col4" backgroundColor="{dataProvider.getItemAt(3) as uint}" width="100%" height="100%"/>
+		<mx:GridItem id="col5" backgroundColor="{dataProvider.getItemAt(4) as uint}" width="100%" height="100%"/>
+	</mx:GridRow>
+	<mx:filters>
+		<filters:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5"/>
+		<filters:BevelFilter angle="80" distance="1" shadowAlpha="0.4" highlightAlpha="0.5"/>
+	</mx:filters>
+</mx:Grid>
