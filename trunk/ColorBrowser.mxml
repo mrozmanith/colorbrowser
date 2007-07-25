@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" minimumWidth="500" minimumHeight="450" width="657" height="683">
+	<mx:Style source="css/colorswatch.css"/>
+	<mx:Script>
+		<![CDATA[
+			import flash.desktop.DragManager;
+			import flash.desktop.TransferableFormats;
+			import components.ColorEdit;
+			import com.sophware.ApolloUtil;
+			import mx.controls.Alert;
+			import mx.managers.CursorManager;
+			import mx.events.DragEvent;
+			import mx.events.ResizeEvent;
+			import flash.filesystem.FileMode;
+			import flash.filesystem.File;
+			import flash.filesystem.FileStream;
+			import flash.events.IOErrorEvent;
+			import mx.events.FlexEvent;
+			import com.sophware.Util;
+			import mx.collections.ArrayCollection;
+			import mx.core.Container;
+			import mx.core.UIComponent;
+			
+			private var winUtil:ApolloUtil;
+			private var lastString:String;
+			private var colorFile:File; //Save location for colors
+			private var colorFileStream:FileStream;
+			private var saveFile:File; //Save file reference
+			private var saveFileStream:FileStream;
+			private var inFile:File; //File to open, replaces current file
+			private var inFileStream:FileStream;
+			private var dragFile:File; //File dropped on app
+			private var dragFileStream:FileStream;
+			
+			//Variables to control filter dropshadows
+			[Bindable]
+			private var dropBlur:Number = 3;
+			[Bindable]
+			private var dropDistance:Number = 1;
+			[Bindable]
+			private var dropAlpha:Number = 0.65;
+			
+			[Bindable]
+			private var colorCollection:ArrayCollection;
+			[Bindable]
+			private var colorListCollection:ArrayCollection;
+			
+			private function onComplete():void {
+				//Remember window size and location
+				winUtil = new ApolloUtil(stage);
+				
+				//Set up file access
+				colorFile = File.applicationStorageDirectory.resolve("saved.color");
+				if(colorFile.exists  && colorFile.size > 10) {
+					colorFileStream = new FileStream();
+					colorFileStream.open(colorFile, FileMode.UPDATE);
+					colorListCollection = colorFileStream.readObject() as ArrayCollection;
+				}
+				else {
+					var tempFileStream:FileStream = new FileStream();
+					tempFileStream.open(colorFile,FileMode.WRITE);
+					tempFileStream.close();
+					colorFileStream = new FileStream();
+					colorFileStream.open(colorFile, FileMode.UPDATE);
+				}
+				
+				//Set up app to accept drag
+				colorDisplayList.addEventListener("nativeDragOver",fileDrag);
+				colorDisplayList.addEventListener("nativeDragDrop",acceptDrag);
+			}
+			
+			private function inputValue():void {
+				lastString = input.text;
+				if(input.text.indexOf("Hex:") != -1) {
+					var colorArray:Array = new Array();
+					var tempString:String = (input.text.indexOf("Hex: ")==1)?input.text.split("Hex: ")[1]:input.text.split("Hex:")[1];
+					var tempArray:Array = tempString.split(", ");
+					for each(var color:String in tempArray) {
+						colorArray.push(uint("0x"+color));
+					}
+					input.text = "";
+					colorCollection = new ArrayCollection(colorArray);
+					
+					getName();
+				}
+				else {
+					input.text = "";
+				}
+			}
+			
+			private function getName():void {
+				namePanel.visible = true;
+				colorName.text = "";
+				goButton.addEventListener(FlexEvent.BUTTON_DOWN,setName);
+				
+			}
+			private function setName(evt:FlexEvent):void {
+				//Set up list of colors
+				var fillArray:Array;
+				if(colorListCollection) {
+					fillArray = colorListCollection.toArray();
+				}
+				else {
+					fillArray = new Array();
+				}
+				fillArray.push({data:new ArrayCollection(colorCollection.toArray()),name:colorName.text,string:lastString});
+				colorListCollection = new ArrayCollection(fillArray);
+				writeCollection(colorListCollection);
+				namePanel.visible = false;
+			}
+			
+			private function renderColor(inCollection:Object):void {
+				colorCollection = inCollection.data as ArrayCollection;
+			}
+			
+			private function setColor(inObject:Container,rgb:String):void {
+				inObject.setStyle("backgroundColor",rgb);
+			}
+			
+			private function addItem():void {
+				editBox.visible = true;
+			}
+			
+			private function deleteItem():void {
+				colorListCollection.removeItemAt(colorDisplayList.selectedIndex);
+				writeCollection(colorListCollection);
+			}
+			
+			private function writeCollection(inCollection:ArrayCollection):void {
+				colorFileStream.position = 0;
+				colorFileStream.truncate();
+				colorFileStream.writeObject(inCollection);
+			}
+			
+			private function toClipBoard():void {
+				System.setClipboard(colorDisplayList.selectedItem.string);
+			}
+			
+			private function outFileClick():void {
+				try {
+					saveFile = File.documentsDirectory;
+					saveFile.browseForSave("Save Colors");
+					saveFile.addEventListener(Event.SELECT, saveColors);
+				}
+				catch (error:Error) {
+					Alert.show("Failed: "+error.message,"Save failed");
+				}
+			}
+			
+			private function saveColors(evt:Event):void {
+				var outFile:File = evt.target as File;
+				var outFileStream:FileStream = new FileStream();
+				outFileStream.open(outFile,FileMode.WRITE);
+				outFileStream.writeObject(colorListCollection);
+				outFileStream.close();
+				CursorManager.removeBusyCursor();
+			}
+			
+			private function inFileClick():void {
+				inFile = new File();
+				inFile.addEventListener( Event.SELECT, copyFile );
+				inFile.browse( new Array( new FileFilter( "Color Files", "*.color" ) ) );
+			}
+			private function copyFile(evt:Event):void {
+				colorFileStream.close();
+				inFile.copyTo(colorFile,true);
+				colorFileStream.open(colorFile, FileMode.UPDATE);
+				colorListCollection = colorFileStream.readObject() as ArrayCollection;
+			}
+			
+			private function closeApp():void {
+				colorFileStream.close();
+				stage.window.close();
+			}
+			
+			private function fileDrag(evt:NativeDragEvent):void {
+				if(evt.transferable.hasFormat(TransferableFormats.FILE_LIST_FORMAT)){
+					DragManager.acceptDragDrop(colorDisplayList);
+				}
+			}
+			
+			private function acceptDrag(evt:NativeDragEvent):void {
+				DragManager.dropAction = "copy";
+				var tempArray:Array = evt.transferable.dataForFormat(TransferableFormats.FILE_LIST_FORMAT) as Array;
+				dragFileStream = new FileStream();
+				for each(var tempFile:File in tempArray) {
+					trace(tempFile.extension);
+					trace("Path: "+tempFile.nativePath);
+					dragFileStream.open(tempFile,FileMode.READ);
+					trace(dragFileStream.bytesAvailable);
+					var tempBytes:ByteArray = new ByteArray();
+					dragFileStream.readBytes(tempBytes,0,dragFileStream.bytesAvailable);
+					dragFileStream.close();
+					//trace(tempBytes.toString());
+					do {
+						var tempNum:Number = tempBytes.readFloat();
+						trace(tempNum.toString(16));
+					} while (tempBytes.bytesAvailable > 0);
+					
+					trace(tempBytes.position);
+					//var tempItem:FileToConvert = new FileToConvert(tempFile);
+				}
+				//fileList = new ArrayCollection();
+				//trace(fileList);
+			}
+		]]>
+	</mx:Script>
+	<mx:Canvas id="main" width="100%" height="100%" top="0" left="0" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:VBox top="10" left="10" bottom="10" right="10" horizontalAlign="center">
+			<mx:HBox width="100%" verticalAlign="middle">
+				<mx:Button label="Open" icon="@Embed('images/document-open.png')" height="22" click="inFileClick()"/>
+				<mx:Button label="Save" icon="@Embed('images/save.png')" height="22" click="outFileClick()"/>
+				<mx:VRule height="15"/>
+				<mx:Button label="New" icon="@Embed('images/new.png')" height="22" click="addItem()"/>
+				<mx:Button label="Edit"/>
+				<mx:Button label="Duplicate"/>
+				<mx:Button click="deleteItem()" icon="@Embed('images/delete.png')" height="22" toolTip="Delete" enabled="{colorDisplayList.selectedItem}" label="Delete"/>
+				<mx:Button click="toClipBoard()" icon="@Embed('images/clipboard.png')" height="22" toolTip="Save to Clipboard" enabled="{colorDisplayList.selectedItem}" label="Copy"/>
+			</mx:HBox>
+			<mx:TileList id="colorDisplayList" width="100%" height="100%" dataProvider="{colorListCollection}" itemRenderer="components.ColorSetRenderer" columnWidth="120" dragEnabled="true" dropEnabled="true" dragMoveEnabled="true"/>
+			<controls:PromptingTextInput width="100%" id="input" prompt="Paste Here" change="inputValue()"/>
+		</mx:VBox>
+		<mx:Panel id="namePanel" title="New Color" horizontalCenter="0" verticalCenter="-5.5" layout="vertical" horizontalAlign="center" visible="false">
+			<mx:HBox>
+				<mx:Label text="Name:" styleName="colorLabel"/>
+				<mx:TextInput id="colorName" width="100%"/>
+			</mx:HBox>
+			<comp:ColorSet dataProvider="{colorCollection}"/>
+			<mx:HBox horizontalGap="3" horizontalAlign="right" width="100%">
+				<mx:Button id="goButton" label="Ok" toolTip="Save Color"/>
+				<mx:Button label="Cancel" click="{namePanel.visible = false}" toolTip="Cancel"/>
+			</mx:HBox>
+		</mx:Panel>
+		<comp:ColorEdit id="editBox" horizontalCenter="0" verticalCenter="-30" visible="false"/>
+	</mx:Canvas>
+</mx:WindowedApplication>

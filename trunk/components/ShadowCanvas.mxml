@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="40" height="40" backgroundColor="#888888" xmlns:filters="flash.filters.*">
+	<mx:filters>
+		<filters:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5"/>
+		<filters:BevelFilter angle="90" distance="1" shadowAlpha="0.4" highlightAlpha="0.5"/>
+	</mx:filters>
+</mx:Canvas>

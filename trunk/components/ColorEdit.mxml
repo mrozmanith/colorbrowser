@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" title="Color Editor" xmlns:filters="flash.filters.*" xmlns:components="components.*">
+	<mx:HBox>
+		<mx:Label text="Name:" styleName="colorLabel" height="22">
+		<mx:filters>
+			<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5"/>
+		</mx:filters>
+	</mx:Label>
+		<mx:TextInput/>
+	</mx:HBox>
+	<mx:Grid width="100%" horizontalGap="3" verticalGap="5">
+		<mx:GridRow>
+			<mx:GridItem horizontalAlign="center">
+				<components:ShadowCanvas/>
+			</mx:GridItem>
+			<mx:GridItem horizontalAlign="center">
+				<components:ShadowCanvas/>
+			</mx:GridItem>
+			<mx:GridItem horizontalAlign="center">
+				<components:ShadowCanvas/>
+			</mx:GridItem>
+			<mx:GridItem horizontalAlign="center">
+				<components:ShadowCanvas/>
+			</mx:GridItem>
+			<mx:GridItem horizontalAlign="center">
+				<components:ShadowCanvas/>
+			</mx:GridItem>
+		</mx:GridRow>
+		<mx:GridRow>
+			<mx:GridItem>
+				<mx:TextInput width="75"/>
+			</mx:GridItem>
+			<mx:GridItem>
+				<mx:TextInput width="75"/>
+			</mx:GridItem>
+			<mx:GridItem>
+				<mx:TextInput width="75"/>
+			</mx:GridItem>
+			<mx:GridItem>
+				<mx:TextInput width="75"/>
+			</mx:GridItem>
+			<mx:GridItem>
+				<mx:TextInput width="75"/>
+			</mx:GridItem>
+		</mx:GridRow>
+	</mx:Grid>
+	<mx:HBox width="100%" horizontalAlign="right">
+		<mx:Button label="Ok"/>
+		<mx:Button label="Cancel" click="{this.visible=false}"/>
+	</mx:HBox>
+</mx:Panel>
