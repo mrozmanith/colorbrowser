@@ -1,46 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" title="Color Editor" xmlns:filters="flash.filters.*" xmlns:components="components.*">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.PropertyChangeEvent;
+			import mx.collections.ArrayCollection;
+			
+			private var _colorObject:Object;
+			[Bindable] private var _colorSet:ArrayCollection;
+			[Bindable] private var _setName:String;
+			[Bindable] private var _colorString:ArrayCollection;
+			
+			[Bindable]
+			public function set colorObject(inObj:Object):void {
+				_colorObject = inObj;
+				_setName = inObj.name;
+				_colorSet = inObj.data;
+				
+				var tempString:Array = new Array();
+				for each(var tempItem:uint in _colorSet) {
+					tempString.push(hexString(tempItem));
+				}
+				_colorString = new ArrayCollection(tempString);
+				
+			}
+			public function get colorObject():Object {
+				return _colorObject;
+			}
+			
+			private function hexString(inNum:uint):String {
+				var tempString:String = "#";
+				var numString:String = inNum.toString(16);
+				
+				for(var i:int=0;i<6-numString.length;i++) {
+					tempString += "0";
+				}
+				
+				tempString += numString;
+				tempString.toUpperCase();
+								
+				return tempString;
+			}
+		]]>
+	</mx:Script>
+	
 	<mx:HBox>
 		<mx:Label text="Name:" styleName="colorLabel" height="22">
 		<mx:filters>
 			<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5"/>
 		</mx:filters>
 	</mx:Label>
-		<mx:TextInput/>
+		<mx:TextInput text="{_setName}"/>
 	</mx:HBox>
 	<mx:Grid width="100%" horizontalGap="5" verticalGap="5">
 		<mx:GridRow>
 			<mx:GridItem horizontalAlign="center">
-				<components:ShadowCanvas/>
+				<components:ShadowCanvas backgroundColor="{_colorSet.getItemAt(0) as uint}"/>
 			</mx:GridItem>
 			<mx:GridItem horizontalAlign="center">
-				<components:ShadowCanvas/>
+				<components:ShadowCanvas backgroundColor="{_colorSet.getItemAt(1) as uint}"/>
 			</mx:GridItem>
 			<mx:GridItem horizontalAlign="center">
-				<components:ShadowCanvas/>
+				<components:ShadowCanvas backgroundColor="{_colorSet.getItemAt(2) as uint}"/>
 			</mx:GridItem>
 			<mx:GridItem horizontalAlign="center">
-				<components:ShadowCanvas/>
+				<components:ShadowCanvas backgroundColor="{_colorSet.getItemAt(3) as uint}"/>
 			</mx:GridItem>
 			<mx:GridItem horizontalAlign="center">
-				<components:ShadowCanvas/>
+				<components:ShadowCanvas backgroundColor="{_colorSet.getItemAt(4) as uint}"/>
 			</mx:GridItem>
 		</mx:GridRow>
 		<mx:GridRow>
 			<mx:GridItem>
-				<mx:TextInput width="60"/>
+				<mx:TextInput width="60" text="{_colorString.getItemAt(0)}"/>
 			</mx:GridItem>
 			<mx:GridItem>
-				<mx:TextInput width="60"/>
+				<mx:TextInput width="60" text="{_colorString.getItemAt(1)}"/>
 			</mx:GridItem>
 			<mx:GridItem>
-				<mx:TextInput width="60"/>
+				<mx:TextInput width="60" text="{_colorString.getItemAt(2)}"/>
 			</mx:GridItem>
 			<mx:GridItem>
-				<mx:TextInput width="60"/>
+				<mx:TextInput width="60" text="{_colorString.getItemAt(3)}"/>
 			</mx:GridItem>
 			<mx:GridItem>
-				<mx:TextInput width="60"/>
+				<mx:TextInput width="60" text="{_colorString.getItemAt(4)}"/>
 			</mx:GridItem>
 		</mx:GridRow>
 	</mx:Grid>
