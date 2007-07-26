@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" minimumWidth="500" minimumHeight="450" width="657" height="683">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" minimumWidth="500" minimumHeight="450" width="600" height="600" xmlns:ColorPicker="korax.controls.ColorPicker.*">
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
 			import flash.desktop.DragManager;
 			import flash.desktop.TransferableFormats;
 			import components.ColorEdit;
-			import com.sophware.ApolloUtil;
+			import com.levitation.AirUtil;
 			import mx.controls.Alert;
 			import mx.managers.CursorManager;
 			import mx.events.DragEvent;
@@ -16,12 +16,11 @@
 			import flash.filesystem.FileStream;
 			import flash.events.IOErrorEvent;
 			import mx.events.FlexEvent;
-			import com.sophware.Util;
 			import mx.collections.ArrayCollection;
 			import mx.core.Container;
 			import mx.core.UIComponent;
 			
-			private var winUtil:ApolloUtil;
+			private var winUtil:AirUtil;
 			private var lastString:String;
 			private var colorFile:File; //Save location for colors
 			private var colorFileStream:FileStream;
@@ -47,7 +46,7 @@
 			
 			private function onComplete():void {
 				//Remember window size and location
-				winUtil = new ApolloUtil(stage);
+				winUtil = new AirUtil(stage);
 				
 				//Set up file access
 				colorFile = File.applicationStorageDirectory.resolve("saved.color");
@@ -126,6 +125,15 @@
 				writeCollection(colorListCollection);
 			}
 			
+			private function duplicateItem():void {
+				colorListCollection.addItem(colorDisplayList.selectedItem.valueOf());
+			}
+			
+			private function editItem():void {
+				editBox.visible = true;
+				editBox.colorObject = colorDisplayList.selectedItem;
+			}
+			
 			private function writeCollection(inCollection:ArrayCollection):void {
 				colorFileStream.position = 0;
 				colorFileStream.truncate();
@@ -184,24 +192,48 @@
 				var tempArray:Array = evt.transferable.dataForFormat(TransferableFormats.FILE_LIST_FORMAT) as Array;
 				dragFileStream = new FileStream();
 				for each(var tempFile:File in tempArray) {
-					trace(tempFile.extension);
-					trace("Path: "+tempFile.nativePath);
-					dragFileStream.open(tempFile,FileMode.READ);
-					trace(dragFileStream.bytesAvailable);
-					var tempBytes:ByteArray = new ByteArray();
-					dragFileStream.readBytes(tempBytes,0,dragFileStream.bytesAvailable);
-					dragFileStream.close();
-					//trace(tempBytes.toString());
-					do {
-						var tempNum:Number = tempBytes.readFloat();
-						trace(tempNum.toString(16));
-					} while (tempBytes.bytesAvailable > 0);
-					
-					trace(tempBytes.position);
-					//var tempItem:FileToConvert = new FileToConvert(tempFile);
+					if(tempFile.extension == "css") {
+						translateColourLover(tempFile);
+					}
+					else if(tempFile.extension == "ase") {
+						translateAse(tempFile);
+					}
+					else {
+						Alert.show("Sorry, I don't recognize that file format.");
+					}
 				}
-				//fileList = new ArrayCollection();
-				//trace(fileList);
+			}
+			
+			private function translateColourLover(inFile:File):void {
+				dragFileStream.open(inFile,FileMode.READ);
+				var tempString:String = dragFileStream.readMultiByte(dragFileStream.bytesAvailable,"us-ascii");
+				
+				if(tempString.indexOf("/* COLOURlovers.com") != -1) {
+					var tempArray:Array = tempString.split(".color");
+					var tempName:String = tempArray[0].substring(22,tempArray[0].length-5);
+					var tempColors:Array = new Array();
+					for(var i:int=1;i<tempArray.length;i++) {
+						tempColors.push(uint("0x"+tempArray[i].substr(1,6)));
+					}
+					colorListCollection.addItem({data:new ArrayCollection(tempColors),name:tempName,string:tempString});
+				}
+				else {
+					Alert.show("Not a valid ColourLovers CSS file","Error");
+				}
+			}
+			
+			private function translateAse(inFile:File):void {
+				trace("Path: "+inFile.nativePath);
+				dragFileStream.open(inFile,FileMode.READ);
+				trace(dragFileStream.bytesAvailable);
+				var tempBytes:ByteArray = new ByteArray();
+				dragFileStream.readBytes(tempBytes,0,dragFileStream.bytesAvailable);
+				dragFileStream.close();
+				//trace(tempBytes.toString());
+				do {
+					var tempNum:Number = tempBytes.readFloat();
+					trace(tempNum.toString(16));
+				} while (tempBytes.bytesAvailable > 0);
 			}
 		]]>
 	</mx:Script>
@@ -212,8 +244,8 @@
 				<mx:Button label="Save" icon="@Embed('images/save.png')" height="22" click="outFileClick()"/>
 				<mx:VRule height="15"/>
 				<mx:Button label="New" icon="@Embed('images/new.png')" height="22" click="addItem()"/>
-				<mx:Button label="Edit"/>
-				<mx:Button label="Duplicate"/>
+				<mx:Button label="Edit" enabled="{colorDisplayList.selectedItem}" click="editItem()"/>
+				<mx:Button label="Duplicate" enabled="{colorDisplayList.selectedItem}" click="duplicateItem()"/>
 				<mx:Button click="deleteItem()" icon="@Embed('images/delete.png')" height="22" toolTip="Delete" enabled="{colorDisplayList.selectedItem}" label="Delete"/>
 				<mx:Button click="toClipBoard()" icon="@Embed('images/clipboard.png')" height="22" toolTip="Save to Clipboard" enabled="{colorDisplayList.selectedItem}" label="Copy"/>
 			</mx:HBox>
