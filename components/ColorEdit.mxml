@@ -8,7 +8,7 @@
 	</mx:Label>
 		<mx:TextInput/>
 	</mx:HBox>
-	<mx:Grid width="100%" horizontalGap="3" verticalGap="5">
+	<mx:Grid width="100%" horizontalGap="5" verticalGap="5">
 		<mx:GridRow>
 			<mx:GridItem horizontalAlign="center">
 				<components:ShadowCanvas/>
@@ -28,19 +28,19 @@
 		</mx:GridRow>
 		<mx:GridRow>
 			<mx:GridItem>
-				<mx:TextInput width="75"/>
+				<mx:TextInput width="60"/>
 			</mx:GridItem>
 			<mx:GridItem>
-				<mx:TextInput width="75"/>
+				<mx:TextInput width="60"/>
 			</mx:GridItem>
 			<mx:GridItem>
-				<mx:TextInput width="75"/>
+				<mx:TextInput width="60"/>
 			</mx:GridItem>
 			<mx:GridItem>
-				<mx:TextInput width="75"/>
+				<mx:TextInput width="60"/>
 			</mx:GridItem>
 			<mx:GridItem>
-				<mx:TextInput width="75"/>
+				<mx:TextInput width="60"/>
 			</mx:GridItem>
 		</mx:GridRow>
 	</mx:Grid>
