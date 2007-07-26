@@ -229,6 +229,7 @@
 			private function translateColourLover(inFile:File):void {
 				dragFileStream.open(inFile,FileMode.READ);
 				var tempString:String = dragFileStream.readMultiByte(dragFileStream.bytesAvailable,"us-ascii");
+				dragFileStream.close();
 				
 				if(tempString.indexOf("/* COLOURlovers.com") != -1) {
 					var tempArray:Array = tempString.split(".color");
