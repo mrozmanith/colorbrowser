@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" minimumWidth="500" minimumHeight="450" width="600" height="600" xmlns:ColorPicker="korax.controls.ColorPicker.*">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" minimumWidth="510" minimumHeight="450" width="600" height="600" xmlns:ColorPicker="korax.controls.ColorPicker.*">
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
@@ -267,8 +267,8 @@
 				<mx:Button label="Save" icon="@Embed('images/save.png')" height="22" click="outFileClick()"/>
 				<mx:VRule height="15"/>
 				<mx:Button label="New" icon="@Embed('images/new.png')" height="22" click="addItem()"/>
-				<mx:Button label="Edit" enabled="{colorDisplayList.selectedItem}" click="editItem()"/>
-				<mx:Button label="Duplicate" enabled="{colorDisplayList.selectedItem}" click="duplicateItem()"/>
+				<mx:Button label="Edit" enabled="{colorDisplayList.selectedItem}" click="editItem()" icon="@Embed('images/edit-colors.png')"/>
+				<mx:Button label="Duplicate" enabled="{colorDisplayList.selectedItem}" click="duplicateItem()" icon="@Embed('images/duplicate.png')"/>
 				<mx:Button click="deleteItem()" icon="@Embed('images/delete.png')" height="22" toolTip="Delete" enabled="{colorDisplayList.selectedItem}" label="Delete"/>
 				<mx:Button click="toClipBoard()" icon="@Embed('images/clipboard.png')" height="22" toolTip="Save to Clipboard" enabled="{colorDisplayList.selectedItem}" label="Copy"/>
 			</mx:HBox>
