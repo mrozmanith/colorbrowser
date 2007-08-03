@@ -2,7 +2,7 @@
 
 = Status =
 
-I've got plans for the Color Browser, but at the moment there are two ways to add a new color (note that the "New" button is not yet functional).  You can copy the "Hex:..." line from the bottom of a Kuler RSS feed, or you can drag and drop a CSS file from ColourLovers onto the application.
+I've got plans for the Color Browser, but at the moment there are two ways to add a new color (note that the "New" button is not yet functional).  You can copy the "Hex:..." line from the bottom of a Kuler RSS feed, or you can drag and drop a CSS file from !ColourLovers onto the application.
 
 _8-3-2007_
 
