@@ -2,6 +2,7 @@
 <mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" title="Color Editor" xmlns:filters="flash.filters.*" xmlns:components="components.*">
 	<mx:Script>
 		<![CDATA[
+			import com.sophware.Util;
 			import mx.events.PropertyChangeEvent;
 			import mx.collections.ArrayCollection;
 			
@@ -15,30 +16,9 @@
 				_colorObject = inObj;
 				_setName = inObj.name;
 				_colorSet = inObj.data;
-				
-				var tempString:Array = new Array();
-				for each(var tempItem:uint in _colorSet) {
-					tempString.push(hexString(tempItem));
-				}
-				_colorString = new ArrayCollection(tempString);
-				
 			}
 			public function get colorObject():Object {
 				return _colorObject;
-			}
-			
-			private function hexString(inNum:uint):String {
-				var tempString:String = "#";
-				var numString:String = inNum.toString(16);
-				
-				for(var i:int=0;i<6-numString.length;i++) {
-					tempString += "0";
-				}
-				
-				tempString += numString;
-				tempString.toUpperCase();
-								
-				return tempString;
 			}
 		]]>
 	</mx:Script>
@@ -51,42 +31,11 @@
 	</mx:Label>
 		<mx:TextInput text="{_setName}"/>
 	</mx:HBox>
-	<mx:Grid width="100%" horizontalGap="5" verticalGap="5">
-		<mx:GridRow>
-			<mx:GridItem horizontalAlign="center">
-				<components:ShadowCanvas backgroundColor="{_colorSet.getItemAt(0) as uint}"/>
-			</mx:GridItem>
-			<mx:GridItem horizontalAlign="center">
-				<components:ShadowCanvas backgroundColor="{_colorSet.getItemAt(1) as uint}"/>
-			</mx:GridItem>
-			<mx:GridItem horizontalAlign="center">
-				<components:ShadowCanvas backgroundColor="{_colorSet.getItemAt(2) as uint}"/>
-			</mx:GridItem>
-			<mx:GridItem horizontalAlign="center">
-				<components:ShadowCanvas backgroundColor="{_colorSet.getItemAt(3) as uint}"/>
-			</mx:GridItem>
-			<mx:GridItem horizontalAlign="center">
-				<components:ShadowCanvas backgroundColor="{_colorSet.getItemAt(4) as uint}"/>
-			</mx:GridItem>
-		</mx:GridRow>
-		<mx:GridRow>
-			<mx:GridItem>
-				<mx:TextInput width="60" text="{_colorString.getItemAt(0)}"/>
-			</mx:GridItem>
-			<mx:GridItem>
-				<mx:TextInput width="60" text="{_colorString.getItemAt(1)}"/>
-			</mx:GridItem>
-			<mx:GridItem>
-				<mx:TextInput width="60" text="{_colorString.getItemAt(2)}"/>
-			</mx:GridItem>
-			<mx:GridItem>
-				<mx:TextInput width="60" text="{_colorString.getItemAt(3)}"/>
-			</mx:GridItem>
-			<mx:GridItem>
-				<mx:TextInput width="60" text="{_colorString.getItemAt(4)}"/>
-			</mx:GridItem>
-		</mx:GridRow>
-	</mx:Grid>
+	<mx:HBox>
+		<mx:Repeater id="colorRow" dataProvider="{_colorSet}">
+			<components:SingleColor colorVal="{colorRow.currentItem as uint}"/>
+		</mx:Repeater>
+	</mx:HBox>
 	<mx:HBox width="100%" horizontalAlign="right">
 		<mx:Button label="Ok"/>
 		<mx:Button label="Cancel" click="{this.visible=false}"/>
