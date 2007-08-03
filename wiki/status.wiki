@@ -5,6 +5,7 @@
 I've got plans for the Color Browser, but at the moment there are two ways to add a new color (note that the "New" button is not yet functional).  You can copy the "Hex:..." line from the bottom of a Kuler RSS feed, or you can drag and drop a CSS file from ColourLovers onto the application.
 
 _8-3-2007_
+
 I've just added the ability to edit the colors in a set by changing the hex value.  Unfortunately it still doesn't let you save the values back.  It's getting there though.  Once you can create/edit sets completely using the hex values I'm going to move on to finding a suitable color picker to use for editing that way.
 
 == Future Plans ==
