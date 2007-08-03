@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" horizontalAlign="center">
+	<mx:Script>
+		<![CDATA[
+			[Bindable] public var colorVal:uint;
+			
+			private var hexPattern:RegExp=/#/;
+		
+			private function stringChange(evt:Event):void {
+				var tempText:String = evt.currentTarget.text.substr(0,6);
+				
+				var uintText:String = tempText.substr(1,6)+"000000";
+				uintText = "0x"+uintText.substr(0,6);
+				trace(uintText);
+				
+				colorVal = uint(uintText);
+				
+				evt.currentTarget.text = tempText;
+			}
+			
+			private function colorString(inVal:uint):String {
+				var fillString:String = "000000";
+				var tempString:String = "";
+				
+				tempString = fillString + inVal.toString(16);
+				tempString = tempString.substr(tempString.length-6,6);
+				
+				return tempString;
+			}
+		]]>
+	</mx:Script>
+	<comp:ShadowCanvas backgroundColor="{colorVal}"/>
+	<mx:TextInput width="60" text="{colorString(colorVal)}" change="stringChange(event)" restrict="0-9a-f" textAlign="center" fontSize="13"/>
+</mx:VBox>

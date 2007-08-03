@@ -29,6 +29,10 @@ Grid {
 	verticalGap:			0;
 }
 
+GridItem {
+	horizontalGap:			0;
+}
+
 Panel {
 	backgroundColor:		#333333;
 	backgroundAlpha:		1;
@@ -59,6 +63,13 @@ PromptingTextInput {
 
 .colorLabel {
 	font-size:				13;
+	color:					#FFFFFF;
+}
+
+.hexLabel {
+	padding-left:			0;
+	padding-right:			0;
+	font-size:				14;
 	color:					#FFFFFF;
 }
 
