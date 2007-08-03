@@ -4,10 +4,13 @@
 
 I've got plans for the Color Browser, but at the moment there are two ways to add a new color (note that the "New" button is not yet functional).  You can copy the "Hex:..." line from the bottom of a Kuler RSS feed, or you can drag and drop a CSS file from ColourLovers onto the application.
 
+_8-3-2007_
+I've just added the ability to edit the colors in a set by changing the hex value.  Unfortunately it still doesn't let you save the values back.  It's getting there though.  Once you can create/edit sets completely using the hex values I'm going to move on to finding a suitable color picker to use for editing that way.
+
 == Future Plans ==
 These are the items I'd like to add to the app as I go.
   * Ability to import and export ASE (Adobe Stock Exchange) files.
   * Ability to create your own schemes and save them (This is partially implemented).
   * Closely related to the last point, I'd like to be able to edit sets that are already included.  (Note that duplication is already available, but it's not really useful yet.)
-  * Get an application-specific icon.
+  * View a single set in the application (remove the distractions of the other sets).
   * More as I think of them ...
