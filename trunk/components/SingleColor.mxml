@@ -5,7 +5,7 @@
 			[Bindable] public var colorVal:uint;
 			
 			private function onComplete():void {
-				if(data != undefined) {
+				if(data) {
 					colorVal = uint(data);
 				}
 			}
