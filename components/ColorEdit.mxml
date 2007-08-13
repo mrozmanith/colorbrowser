@@ -7,6 +7,7 @@
 			import mx.collections.ArrayCollection;
 			
 			private var _colorObject:Object;
+			public var editing:Boolean;
 			[Bindable] private var _colorSet:ArrayCollection;
 			[Bindable] private var _setName:String;
 			[Bindable] private var _colorString:ArrayCollection;
@@ -23,25 +24,25 @@
 			
 			private function saveColor():void {
 				var writeCollection:ArrayCollection = parentApplication.colorListCollection;
-				var editIndex:Number = parentApplication.colorDisplayList.selectedIndex;
 				var tempArray:Array = new Array();
 				
-				trace(writeCollection[editIndex].data);
-				trace(_colorSet);
-				//trace(colorEditList.columnCount);
-				
-				trace(parentApplication.colorDisplayList.selectedItem);
-				trace(parentApplication.colorListCollection[parentApplication.colorDisplayList.selectedIndex]);
-				
 				for(var i:int = 0; i< colorBox.length; i++) {
-					trace("Color is: "+colorBox[i].colorVal);
+					//trace("Color is: "+colorBox[i].colorVal);
 					tempArray.push(colorBox[i].colorVal);
 				}
 				
 				//writeCollection[editIndex].name=setName.text;
-				writeCollection.removeItemAt(editIndex);
-				writeCollection.addItemAt({name:setName.text,data:new ArrayCollection(tempArray)},editIndex);
-				this.visible = false;
+				if(editing) {
+					var editIndex:Number = parentApplication.colorDisplayList.selectedIndex;
+					writeCollection.removeItemAt(editIndex);
+					writeCollection.addItemAt({name:setName.text,data:new ArrayCollection(tempArray)},editIndex);
+					this.visible = false;
+				}
+				else {
+					writeCollection.addItem({name:setName.text,data:new ArrayCollection(tempArray)});
+					this.visible = false;
+				}
+				
 			}
 		]]>
 	</mx:Script>
