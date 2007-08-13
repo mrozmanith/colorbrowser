@@ -22,12 +22,26 @@
 			}
 			
 			private function saveColor():void {
+				var writeCollection:ArrayCollection = parentApplication.colorListCollection;
+				var editIndex:Number = parentApplication.colorDisplayList.selectedIndex;
+				var tempArray:Array = new Array();
+				
+				trace(writeCollection[editIndex].data);
 				trace(_colorSet);
-				trace(colorEditList.columnCount);
-				trace(colorRow[0].colorVal);
-				/*for each(var tempColor:SingleColor in colorRow) {
-					trace("Color is: "+tempColor.colorVal);
-				}*/
+				//trace(colorEditList.columnCount);
+				
+				trace(parentApplication.colorDisplayList.selectedItem);
+				trace(parentApplication.colorListCollection[parentApplication.colorDisplayList.selectedIndex]);
+				
+				for(var i:int = 0; i< colorBox.length; i++) {
+					trace("Color is: "+colorBox[i].colorVal);
+					tempArray.push(colorBox[i].colorVal);
+				}
+				
+				//writeCollection[editIndex].name=setName.text;
+				writeCollection.removeItemAt(editIndex);
+				writeCollection.addItemAt({name:setName.text,data:new ArrayCollection(tempArray)},editIndex);
+				this.visible = false;
 			}
 		]]>
 	</mx:Script>
@@ -38,14 +52,13 @@
 				<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5"/>
 			</mx:filters>
 		</mx:Label>
-		<mx:TextInput text="{_setName}"/>
+		<mx:TextInput id="setName" text="{_setName}"/>
 	</mx:HBox>
 	<mx:HBox>
 		<mx:Repeater id="colorRow" dataProvider="{_colorSet}">
-			<components:SingleColor colorVal="{colorRow.currentItem as uint}"/>
+			<components:SingleColor id="colorBox" colorVal="{colorRow.currentItem as uint}"/>
 		</mx:Repeater>
 	</mx:HBox>
-	<mx:HorizontalList id="colorEditList" width="100%" horizontalScrollPolicy="off" dataProvider="{_colorSet}" itemRenderer="components.SingleColor"/>
 	<mx:HBox width="100%" horizontalAlign="right">
 		<mx:Button label="Ok" click="saveColor()"/>
 		<mx:Button label="Cancel" click="{this.visible=false}"/>

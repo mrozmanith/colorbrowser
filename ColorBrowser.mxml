@@ -44,7 +44,7 @@
 			[Bindable]
 			private var colorCollection:ArrayCollection;
 			[Bindable]
-			private var colorListCollection:ArrayCollection;
+			public var colorListCollection:ArrayCollection;
 			
 			private function onComplete():void {
 				//Remember window size and location
@@ -113,7 +113,6 @@
 				namePanel.visible = true;
 				colorName.text = "";
 				goButton.addEventListener(FlexEvent.BUTTON_DOWN,setName);
-				
 			}
 			private function setName(evt:FlexEvent):void {
 				//Set up list of colors
