@@ -6,6 +6,6 @@
 		</mx:filters>
 	</mx:Label>
 	<mx:HBox width="100%" horizontalAlign="center">
-		<comp:ColorSet dataProvider="{data.data}"/>
+		<comp:ColorSet dataProvider="{data.data}" width="110" height="35"/>
 	</mx:HBox>
 </mx:VBox>

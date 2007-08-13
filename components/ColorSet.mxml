@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Grid xmlns:mx="http://www.adobe.com/2006/mxml" width="110" height="35" xmlns:filters="flash.filters.*">
+<mx:Grid xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:filters="flash.filters.*">
 	<mx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
