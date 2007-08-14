@@ -3,6 +3,7 @@
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
+			import mx.events.CollectionEvent;
 			import com.sophware.Util;
 			import flash.events.InvokeEvent;
 			import flash.desktop.DragManager;
@@ -70,6 +71,9 @@
 				colorDisplayList.addEventListener("nativeDragDrop",acceptDrag);
 				
 				Shell.shell.addEventListener(InvokeEvent.INVOKE,onInvokeEvent);
+				
+				//Listen for collection changes
+				colorListCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,collectionUpdate);
 			}
 			
 			private function onInvokeEvent(evt:InvokeEvent):void {
@@ -90,44 +94,9 @@
 				}
 			}
 			
-			/*private function inputValue():void {
-				lastString = input.text;
-				if(input.text.indexOf("Hex:") != -1) {
-					var colorArray:Array = new Array();
-					var tempString:String = (input.text.indexOf("Hex: ")==1)?input.text.split("Hex: ")[1]:input.text.split("Hex:")[1];
-					var tempArray:Array = tempString.split(", ");
-					for each(var color:String in tempArray) {
-						colorArray.push(uint("0x"+color));
-					}
-					input.text = "";
-					colorCollection = new ArrayCollection(colorArray);
-					
-					getName();
-				}
-				else {
-					input.text = "";
-				}
-			}
-			
-			private function getName():void {
-				namePanel.visible = true;
-				colorName.text = "";
-				goButton.addEventListener(FlexEvent.BUTTON_DOWN,setName);
-			}
-			private function setName(evt:FlexEvent):void {
-				//Set up list of colors
-				var fillArray:Array;
-				if(colorListCollection) {
-					fillArray = colorListCollection.toArray();
-				}
-				else {
-					fillArray = new Array();
-				}
-				fillArray.push({data:new ArrayCollection(colorCollection.toArray()),name:colorName.text,string:lastString});
-				colorListCollection = new ArrayCollection(fillArray);
+			private function collectionUpdate(evt:CollectionEvent):void {
 				writeCollection(colorListCollection);
-				namePanel.visible = false;
-			}*/
+			}
 			
 			private function renderColor(inCollection:Object):void {
 				colorCollection = inCollection.data as ArrayCollection;
@@ -228,6 +197,7 @@
 				}
 			}
 			
+			//Takes a downloaded ColourLovers CSS file and creates a color set
 			private function translateColourLover(inFile:File):void {
 				dragFileStream.open(inFile,FileMode.READ);
 				var tempString:String = dragFileStream.readMultiByte(dragFileStream.bytesAvailable,"us-ascii");
@@ -247,6 +217,7 @@
 				}
 			}
 			
+			//To use when translating an ASE file, currently non-functional
 			private function translateAse(inFile:File):void {
 				trace("Path: "+inFile.nativePath);
 				dragFileStream.open(inFile,FileMode.READ);
@@ -254,7 +225,7 @@
 				var tempBytes:ByteArray = new ByteArray();
 				dragFileStream.readBytes(tempBytes,0,dragFileStream.bytesAvailable);
 				dragFileStream.close();
-				//trace(tempBytes.toString());
+				
 				do {
 					var tempNum:Number = tempBytes.readFloat();
 					trace(tempNum.toString(16));
@@ -263,9 +234,6 @@
 			
 			//Show the single preview when double clicking
 			private function singleShow(evt:Event):void {
-				//trace(Util.objectString(evt));
-				//singleView.visible = true;
-				trace(evt.currentTarget.selectedItem.data);
 				singleSet.dataProvider = evt.currentTarget.selectedItem.data;
 				singleView.visible = true;
 			}
@@ -281,22 +249,9 @@
 				<mx:Button label="Edit" enabled="{colorDisplayList.selectedItem}" click="editItem()" icon="@Embed('images/edit-colors.png')"/>
 				<mx:Button label="Duplicate" enabled="{colorDisplayList.selectedItem}" click="duplicateItem()" icon="@Embed('images/duplicate.png')"/>
 				<mx:Button click="deleteItem()" icon="@Embed('images/delete.png')" height="22" toolTip="Delete" enabled="{colorDisplayList.selectedItem}" label="Delete"/>
-				<!--<mx:Button click="toClipBoard()" icon="@Embed('images/clipboard.png')" height="22" toolTip="Save to Clipboard" enabled="{colorDisplayList.selectedItem}" label="Copy"/>-->
 			</mx:HBox>
 			<mx:TileList id="colorDisplayList" width="100%" height="100%" dataProvider="{colorListCollection}" itemRenderer="components.ColorSetRenderer" columnWidth="120" dragEnabled="true" dropEnabled="true" dragMoveEnabled="true" doubleClickEnabled="true" doubleClick="singleShow(event)"/>
-			<!--<controls:PromptingTextInput width="100%" id="input" prompt="Paste Here" change="inputValue()"/>-->
 		</mx:VBox>
-		<!--<mx:Panel id="namePanel" title="New Color" horizontalCenter="0" verticalCenter="-5.5" layout="vertical" horizontalAlign="center" visible="false">
-			<mx:HBox>
-				<mx:Label text="Name:" styleName="colorLabel"/>
-				<mx:TextInput id="colorName" width="100%"/>
-			</mx:HBox>
-			<comp:ColorSet dataProvider="{colorCollection}"/>
-			<mx:HBox horizontalGap="3" horizontalAlign="right" width="100%">
-				<mx:Button id="goButton" label="Ok" toolTip="Save Color"/>
-				<mx:Button label="Cancel" click="{namePanel.visible = false}" toolTip="Cancel"/>
-			</mx:HBox>
-		</mx:Panel>-->
 		<comp:ColorEdit id="editBox" horizontalCenter="0" verticalCenter="-30" visible="false"/>
 		<mx:VBox id="singleView" top="5" left="5" bottom="5" right="5" styleName="singlePreview" visible="false">
 			<comp:ColorSet id="singleSet" width="100%" height="100%"/>
