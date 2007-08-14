@@ -27,11 +27,9 @@
 				var tempArray:Array = new Array();
 				
 				for(var i:int = 0; i< colorBox.length; i++) {
-					//trace("Color is: "+colorBox[i].colorVal);
 					tempArray.push(colorBox[i].colorVal);
 				}
 				
-				//writeCollection[editIndex].name=setName.text;
 				if(editing) {
 					var editIndex:Number = parentApplication.colorDisplayList.selectedIndex;
 					writeCollection.removeItemAt(editIndex);
@@ -56,7 +54,7 @@
 		<mx:TextInput id="setName" text="{_setName}"/>
 	</mx:HBox>
 	<mx:HBox>
-		<mx:Repeater id="colorRow" dataProvider="{_colorSet}">
+		<mx:Repeater id="colorRow" dataProvider="{_colorSet}" recycleChildren="true">
 			<components:SingleColor id="colorBox" colorVal="{colorRow.currentItem as uint}"/>
 		</mx:Repeater>
 	</mx:HBox>

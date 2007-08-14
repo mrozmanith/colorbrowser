@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" minimumWidth="510" minimumHeight="450" width="600" height="600" xmlns:ColorPicker="korax.controls.ColorPicker.*">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" minimumWidth="510" minimumHeight="450" width="600" height="600">
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
+			import mx.events.CloseEvent;
 			import mx.events.CollectionEvent;
 			import com.sophware.Util;
 			import flash.events.InvokeEvent;
@@ -33,6 +34,8 @@
 			private var inFileStream:FileStream;
 			private var dragFile:File; //File dropped on app
 			private var dragFileStream:FileStream;
+			
+			private var invokeVar:Boolean;
 			
 			//Variables to control filter dropshadows
 			[Bindable]
@@ -77,20 +80,33 @@
 			}
 			
 			private function onInvokeEvent(evt:InvokeEvent):void {
-				trace(evt.arguments);
-				//trace(Util.objectString(evt));
 				var tempFile:File;
+				
+				singleView.visible = false;
 				
 				for each(var tempString:String in evt.arguments) {
 					try {
 						tempFile = new File(tempString);
 						if(tempFile.extension == "color") {
-							Alert.show("Do you want to save your current color set?","Alert");
+							inFile = tempFile;
+							Alert.show("Do you want to save your current color set?","Alert",Alert.YES|Alert.NO,main,handleFile,null,Alert.YES);
 						}
 					}
 					catch(err:Error) {
 						trace(err.message);
 					}
+				}
+			}
+			
+			private function handleFile(evt:CloseEvent):void {
+				if(evt.detail == Alert.YES) {
+					invokeVar = true;
+					//Alert.show("Clicked yes");
+					outFileClick();
+				}
+				else {
+					copyFile(new Event("bogus"));
+					//Alert.show("Clicked no.");
 				}
 			}
 			
@@ -155,6 +171,9 @@
 				outFileStream.writeObject(colorListCollection);
 				outFileStream.close();
 				CursorManager.removeBusyCursor();
+				if(invokeVar) {
+					copyFile(new Event("bogus"));
+				}
 			}
 			
 			private function inFileClick():void {
@@ -253,7 +272,7 @@
 			<mx:TileList id="colorDisplayList" width="100%" height="100%" dataProvider="{colorListCollection}" itemRenderer="components.ColorSetRenderer" columnWidth="120" dragEnabled="true" dropEnabled="true" dragMoveEnabled="true" doubleClickEnabled="true" doubleClick="singleShow(event)"/>
 		</mx:VBox>
 		<comp:ColorEdit id="editBox" horizontalCenter="0" verticalCenter="-30" visible="false"/>
-		<mx:VBox id="singleView" top="5" left="5" bottom="5" right="5" styleName="singlePreview" visible="false">
+		<mx:VBox id="singleView" top="5" left="5" bottom="5" right="5" styleName="singlePreview" visible="false" showEffect="Fade" hideEffect="Fade">
 			<comp:ColorSet id="singleSet" width="100%" height="100%"/>
 			<mx:Button id="closeSingle" label="Close" click="{singleView.visible=false}"/>
 		</mx:VBox>
