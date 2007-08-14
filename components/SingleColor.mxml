@@ -15,7 +15,6 @@
 				
 				var uintText:String = tempText+"000000";
 				uintText = "0x"+uintText.substr(0,6);
-				trace(uintText);
 				
 				colorVal = uint(uintText);
 				
