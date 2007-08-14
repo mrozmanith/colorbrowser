@@ -3,7 +3,7 @@
 = Status =
 _8-14-2007_
 
-ColorBrowser now lets you create your own palette by entering in the hex data, just hit new, enter the values and hit ok.  You can also drag and drop a CSS file from [http://colourlovers.com ColourLovers] into the application and it will create and name the palette appropriately.  Editing, re-arranging, and removing all work correctly.  The application is also associated with .color files in the operating system.  You can take any color file, double click it and it will open in the application (with a prompt to save your current set of colors since it'll be replaced).  One final feature is viewing a single palette set, just double click and entry in the application to view it.
+Color Browser now lets you create your own palette by entering in the hex data, just hit new, enter the values and hit ok.  You can also drag and drop a CSS file from [http://colourlovers.com ColourLovers] into the application and it will create and name the palette appropriately.  Editing, re-arranging, and removing all work correctly.  The application is also associated with .color files in the operating system.  You can take any color file, double click it and it will open in the application (with a prompt to save your current set of colors since it'll be replaced).  One final feature is viewing a single palette set, just double click and entry in the application to view it.
 
 == Future Plans ==
 These are the items I'd like to add to the app as I go.
