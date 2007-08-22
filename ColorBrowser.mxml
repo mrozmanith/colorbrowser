@@ -56,11 +56,14 @@
 				
 				//Set up file access
 				colorFile = File.applicationStorageDirectory.resolve("saved.color");
+				
+				//File exists, use it
 				if(colorFile.exists  && colorFile.size > 10) {
 					colorFileStream = new FileStream();
 					colorFileStream.open(colorFile, FileMode.UPDATE);
 					colorListCollection = colorFileStream.readObject() as ArrayCollection;
 				}
+				//Need to create a new file and startusing it
 				else {
 					var tempFileStream:FileStream = new FileStream();
 					tempFileStream.open(colorFile,FileMode.WRITE);
@@ -79,6 +82,7 @@
 				colorListCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,collectionUpdate);
 			}
 			
+			//Referenced when a .color file is double clicked in the OS
 			private function onInvokeEvent(evt:InvokeEvent):void {
 				var tempFile:File;
 				
@@ -101,12 +105,10 @@
 			private function handleFile(evt:CloseEvent):void {
 				if(evt.detail == Alert.YES) {
 					invokeVar = true;
-					//Alert.show("Clicked yes");
 					outFileClick();
 				}
 				else {
 					copyFile(new Event("bogus"));
-					//Alert.show("Clicked no.");
 				}
 			}
 			
@@ -245,10 +247,23 @@
 				dragFileStream.readBytes(tempBytes,0,dragFileStream.bytesAvailable);
 				dragFileStream.close();
 				
-				do {
+				//trace(tempBytes.toString());
+				for(var i:int=0; i<3; i++) {
+					tempBytes.readByte();
+				}
+				trace("Past first three");
+				trace(tempBytes.bytesAvailable);
+				/*while (tempBytes.bytesAvailable > 0); {
+					trace("Yup");
 					var tempNum:Number = tempBytes.readFloat();
 					trace(tempNum.toString(16));
-				} while (tempBytes.bytesAvailable > 0);
+				}*/
+				for(var j:int=0;j<20;j++) {
+					var tempNum:Number = tempBytes.readFloat();
+					trace(tempNum.toString(16));
+					//trace(tempBytes.bytesAvailable);
+				}
+				dragFileStream.close();
 			}
 			
 			//Show the single preview when double clicking
