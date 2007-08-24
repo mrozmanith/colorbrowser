@@ -238,32 +238,40 @@
 				}
 			}
 			
-			//To use when translating an ASE file, currently non-functional
+			//To use when translating an ASE file, currently very incomplete
 			private function translateAse(inFile:File):void {
 				trace("Path: "+inFile.nativePath);
 				dragFileStream.open(inFile,FileMode.READ);
-				trace(dragFileStream.bytesAvailable);
+				//trace(dragFileStream.bytesAvailable);
 				var tempBytes:ByteArray = new ByteArray();
 				dragFileStream.readBytes(tempBytes,0,dragFileStream.bytesAvailable);
 				dragFileStream.close();
 				
-				//trace(tempBytes.toString());
-				for(var i:int=0; i<3; i++) {
-					tempBytes.readByte();
+				var tempNum:Number = tempBytes.bytesAvailable;
+				var colorSetArray:Array = new Array();
+				
+				for(var i:int=0; i< tempNum-3; i++) {
+					tempBytes.position = i;
+					//trace(tempBytes.position);
+					if(tempBytes.readUTFBytes(3) == "RGB") {
+						tempBytes.position++;
+						trace(tempBytes.position.toString(16));
+						trace("Start of color");
+						
+						var shortArray:Array = new Array();
+						for(var j:int=0;j<3;j++) {
+							shortArray.push(tempBytes.readFloat()*255);
+						}
+						var colorVal:uint = (shortArray[0]<<16) | (shortArray[1]<<8) | shortArray[2];
+						trace(colorVal.toString(16));
+						colorSetArray.push(colorVal);
+						
+						i = tempBytes.position-1;
+					}
+					
+					editBox.visible = true;
+					editBox.colorObject = {name:"New ASE Color",data:new ArrayCollection(colorSetArray)};
 				}
-				trace("Past first three");
-				trace(tempBytes.bytesAvailable);
-				/*while (tempBytes.bytesAvailable > 0); {
-					trace("Yup");
-					var tempNum:Number = tempBytes.readFloat();
-					trace(tempNum.toString(16));
-				}*/
-				for(var j:int=0;j<20;j++) {
-					var tempNum:Number = tempBytes.readFloat();
-					trace(tempNum.toString(16));
-					//trace(tempBytes.bytesAvailable);
-				}
-				dragFileStream.close();
 			}
 			
 			//Show the single preview when double clicking
