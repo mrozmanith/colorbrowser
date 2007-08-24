@@ -1,11 +1,15 @@
 #summary The current status of the application
 
 = Status =
-_8-14-2007_
+_8-23-2007_
 
-Color Browser now lets you create your own palette by entering in the hex data, just hit new, enter the values and hit ok.  You can also drag and drop a CSS file from [http://colourlovers.com ColourLovers] into the application and it will create and name the palette appropriately.  Editing, re-arranging, and removing all work correctly.  The application is also associated with .color files in the operating system.  You can take any color file, double click it and it will open in the application (with a prompt to save your current set of colors since it'll be replaced).  One final feature is viewing a single palette set, just double click and entry in the application to view it.
+Color Browser now lets you create your own palette by entering in the hex data, just hit new, enter the values and hit ok.  You can also drag and drop a CSS file from [http://colourlovers.com ColourLovers] into the application and it will create and name the palette appropriately.  ASE files using RGB are also supported now, though naming will not  come through currently.  Editing, re-arranging, and removing all work correctly.  The application is also associated with .color files in the operating system.  You can take any color file, double click it and it will open in the application (with a prompt to save your current set of colors since it'll be replaced).  One final feature is viewing a single palette set, just double click and entry in the application to view it.
+
+NOTE: Version has been switched back to a more appropriate 0.5, previous versioning was left over from another project.
 
 == Future Plans ==
 These are the items I'd like to add to the app as I go.
-  * Ability to import and export ASE (Adobe Stock Exchange) files.
+  * Ability to export ASE (Adobe Stock Exchange) files.
+  * Variable numbers of colors, viewed and edited.
+  * Group colors
   * More as I think of them ...
