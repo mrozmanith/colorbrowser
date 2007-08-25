@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" horizontalAlign="center" creationComplete="onComplete()">
+	<mx:Metadata>
+		[Event(name="colorChange", type="flash.events.Event")]
+	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
 			[Bindable] public var colorVal:uint;
@@ -20,6 +23,9 @@
 				
 				evt.currentTarget.text = tempText;
 				data = colorVal;
+				
+				var tempEvent:Event = new Event("colorChange");
+				dispatchEvent(tempEvent);
 			}
 			
 			private function colorString(inVal:uint):String {
