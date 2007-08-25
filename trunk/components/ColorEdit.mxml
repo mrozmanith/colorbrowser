@@ -16,7 +16,7 @@
 			public function set colorObject(inObj:Object):void {
 				_colorObject = inObj;
 				_setName = inObj.name;
-				_colorSet = inObj.data;
+				_colorSet = new ArrayCollection(inObj.data.toArray());
 			}
 			public function get colorObject():Object {
 				return _colorObject;
@@ -49,6 +49,12 @@
 			private function removeColor():void {
 				_colorSet.removeItemAt(_colorSet.length-1);
 			}
+			
+			private function updateColor(evt:Event):void {
+				var tempArray:Array = new Array();
+				
+				//read through colors and set up a new collection?
+			}
 		]]>
 	</mx:Script>
 	
@@ -62,7 +68,7 @@
 	</mx:HBox>
 	<mx:HBox>
 		<mx:Repeater id="colorRow" dataProvider="{_colorSet}" recycleChildren="true">
-			<components:SingleColor id="colorBox" colorVal="{colorRow.currentItem as uint}"/>
+			<components:SingleColor id="colorBox" colorVal="{colorRow.currentItem as uint}" colorChange="updateColor(event)"/>
 		</mx:Repeater>
 		<mx:VBox>
 			<mx:Button label="+" click="addColor()" toolTip="Add New Color"/>
