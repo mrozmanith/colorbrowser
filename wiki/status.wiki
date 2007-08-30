@@ -1,10 +1,14 @@
 #summary About this application
 =Color Browser=
-I love using !ColourLovers and Kuler, but without getting to their webpage I can't keep track of favorites.  Not to mention the fact that any favorites would only be for that site.  So I started developing an app that could help me keep track of my favorite colors.
+I love using !ColourLovers and Kuler, but without getting to their webpage I can't keep track of favorites.  Not to mention the fact that any favorites would only be for that site.  So I started developing an app that could help me keep track of my favorite color sets.
 
-Color Browser now lets you create your own palette by entering in the hex data, just hit new, enter the values and hit ok.  You can also drag and drop a CSS file from [http://colourlovers.com ColourLovers] into the application and it will create and name the palette appropriately.  ASE files using RGB are also supported now, though naming will not  come through currently.  Editing, re-arranging, and removing all work correctly.  The application is also associated with .color files in the operating system.  You can take any color file, double click it and it will open in the application (with a prompt to save your current set of colors since it'll be replaced).  One final feature is viewing a single palette set, just double click and entry in the application to view it.
+Along the way I extended things a little bit, I decided there was no reason that sets should be limited to five colors.  So Color Browser sets can have any number (within reason, of course).  You can duplicate a set, edit it and save it again.  You can rearrange sets any way you want to.  And you can double-click to open a color and view it in the full application.
 
-NOTE: Version has been switched back to a more appropriate 0.5, previous versioning was left over from another project.
+==Adding Color Sets==
+You can certainly just type in the hex RGB values for the colors in a set you want to add.  But that can certainly take a while if you've got a number of sets to input.  So I've added a couple of other ways to add sets from my two favorite services.  Just download a CSS file from !ColourLovers, or an ASE file from Kuler, then drag them and drop them on the application.  It's that simple.
+
+==Saving Your Favorites==
+Color Browser uses .color files to store your collections.  You can keep different collections on hand and switch between them easily.  You can also use them to send collections to anyone with the app.
 
 == Future Plans ==
 These are the items I'd like to add to the app as I go.
