@@ -9,7 +9,6 @@
 			
 			private function onComplete():void {
 				if(data) {
-					trace("set: "+data);
 					colorVal = uint(data);
 				}
 			}
