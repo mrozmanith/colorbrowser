@@ -1,6 +1,6 @@
 #summary About this application
 =Color Browser=
-I love using !ColourLovers and Kuler, but without getting to their webpage I can't keep track of favorites.  Not to mention the fact that any favorites would only be for that site.  So I started developing an app that could help me keep track of my favorite color sets.
+I love using !ColourLovers and Kuler, but without getting to their webpage I can't keep track of favorites.  Not to mention the fact that any favorites would only be for one site.  So I started developing an app that could help me keep track of my favorite color sets.
 
 Along the way I extended things a little bit, I decided there was no reason that sets should be limited to five colors.  So Color Browser sets can have any number (within reason, of course).  You can duplicate a set, edit it and save it again.  You can rearrange sets any way you want to.  And you can double-click to open a color and view it in the full application.
 
