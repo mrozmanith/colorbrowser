@@ -66,15 +66,18 @@
 		</mx:Label>
 		<mx:TextInput id="setName" text="{_setName}"/>
 	</mx:HBox>
-	<mx:HBox>
-		<mx:Repeater id="colorRow" dataProvider="{_colorSet}" recycleChildren="true">
-			<components:SingleColor id="colorBox" colorVal="{colorRow.currentItem as uint}" colorChange="updateColor(event)"/>
-		</mx:Repeater>
+	<mx:HBox verticalAlign="top">
+		<mx:Tile width="350">
+			<mx:Repeater id="colorRow" dataProvider="{_colorSet}" recycleChildren="true">
+				<components:SingleColor id="colorBox" colorVal="{colorRow.currentItem as uint}" colorChange="updateColor(event)"/>
+			</mx:Repeater>
+		</mx:Tile>
 		<mx:VBox>
 			<mx:Button label="+" click="addColor()" toolTip="Add New Color"/>
 			<mx:Button label="-" click="removeColor()" toolTip="Remove Last Color"/>
 		</mx:VBox>
 	</mx:HBox>
+	
 	<mx:HBox width="100%" horizontalAlign="right">
 		<mx:Button label="Ok" click="saveColor()"/>
 		<mx:Button label="Cancel" click="{this.visible=false}"/>

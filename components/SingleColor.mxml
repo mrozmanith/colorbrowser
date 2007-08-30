@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" horizontalAlign="center" creationComplete="onComplete()">
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" horizontalAlign="center" creationComplete="onComplete()" dataChange="onComplete()">
 	<mx:Metadata>
 		[Event(name="colorChange", type="flash.events.Event")]
 	</mx:Metadata>
@@ -9,6 +9,7 @@
 			
 			private function onComplete():void {
 				if(data) {
+					trace("set: "+data);
 					colorVal = uint(data);
 				}
 			}
