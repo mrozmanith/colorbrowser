@@ -53,6 +53,13 @@ TileList {
 	border-style:			none;
 }
 
+TitleWindow {
+	backgroundColor:		#333333;
+	backgroundAlpha:		1;
+	borderColor:			#333333;
+	borderAlpha:			1;
+}
+
 ToolTip {
 	font-size:				12;
 }
@@ -78,6 +85,12 @@ ToolTip {
 .mask {
 	background-color:		#006600;
 	border-style:			solid;
+}
+
+.roundedCanvas {
+	border-style:			solid;
+	border-thickness:		0;
+	corner-radius:			7;
 }
 
 .singlePreview {
