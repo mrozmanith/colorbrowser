@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Script>
+		<![CDATA[
+			private var imageBits:Bitmap;
+			private var imageData:BitmapData;
+			private var _colorVal:uint = 0xFFFFFF;
+		
+			private function onComplete(evt:Event):void {
+				imageBits = colorMap.content as Bitmap;
+				imageData = new BitmapData(colorMap.width,colorMap.height);
+				imageData.draw(imageBits);
+			}
+			
+			[Bindable]
+			public function set colorVal(inNum:uint):void {
+				if(inNum < 0xFFFFFF) {
+					_colorVal = inNum;
+				}
+			}
+			public function get colorVal():uint {
+				return _colorVal;
+			}
+			
+			private function getColor(evt:MouseEvent):void {
+				var tempColor:uint = imageData.getPixel(evt.localX,evt.localY);
+				browseCanvas.setStyle("backgroundColor",tempColor);
+			}
+			
+			private function grabColor(evt:MouseEvent):void {
+				colorVal = imageData.getPixel(evt.localX,evt.localY);
+			}
+		]]>
+	</mx:Script>
+	<mx:Image id="colorMap" source="@Embed(source='../images/ColorBox.png')" horizontalCenter="0" mouseMove="getColor(event)" mouseDown="grabColor(event)" creationComplete="onComplete(event)">
+		<mx:filters>
+			<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5" inner="true"/>
+		</mx:filters>
+	</mx:Image>
+	<mx:Canvas id="setCanvas" width="125" height="20" horizontalCenter="-62" top="202" backgroundColor="{colorVal}" styleName="roundedCanvas">
+		<mx:filters>
+			<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5" inner="true"/>
+		</mx:filters>
+	</mx:Canvas>
+	<mx:Canvas id="browseCanvas" width="125" height="20" horizontalCenter="62" top="202" backgroundColor="#FFFFFF" styleName="roundedCanvas">
+		<mx:filters>
+			<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5" inner="true"/>
+		</mx:filters>
+	</mx:Canvas>
+</mx:Canvas>
