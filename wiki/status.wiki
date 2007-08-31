@@ -13,6 +13,7 @@ Color Browser uses .color files to store your collections.  You can keep differe
 == Future Plans ==
 These are the items I'd like to add to the app as I go.
   * Ability to export ASE (Adobe Stock Exchange) files.
-  * Color picker along with hex values
+  * Merge of .color files (full file, selected colors)
+  * Export individual colors (native file format or otherwise)
   * Group colors
   * More as I think of them ...
