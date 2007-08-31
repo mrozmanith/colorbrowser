@@ -58,6 +58,7 @@ TitleWindow {
 	backgroundAlpha:		1;
 	borderColor:			#333333;
 	borderAlpha:			1;
+	modal-transparency-color:#333333;
 }
 
 ToolTip {
