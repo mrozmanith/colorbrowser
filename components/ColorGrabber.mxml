@@ -2,14 +2,24 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
 	<mx:Script>
 		<![CDATA[
+			import mx.events.EffectEvent;
+			import com.adobe.effects.SaturationFade;
+			import mx.events.SliderEvent;
+			
 			private var imageBits:Bitmap;
 			private var imageData:BitmapData;
 			private var _colorVal:uint = 0xFFFFFF;
+			private var satEffect:SaturationFade;
+			private var _saturation:Number = 1;
 		
 			private function onComplete(evt:Event):void {
 				imageBits = colorMap.content as Bitmap;
 				imageData = new BitmapData(colorMap.width,colorMap.height);
 				imageData.draw(imageBits);
+			}
+			
+			private function setImage():void {
+				imageData.draw(colorMap);
 			}
 			
 			[Bindable]
@@ -30,19 +40,34 @@
 			private function grabColor(evt:MouseEvent):void {
 				colorVal = imageData.getPixel(evt.localX,evt.localY);
 			}
+			
+			private function setSat(evt:SliderEvent):void {
+				satEffect = new SaturationFade(colorMap);
+				satEffect.saturationFrom = _saturation;
+				satEffect.saturationTo = evt.value/100;
+				satEffect.duration = 200;
+				satEffect.addEventListener(EffectEvent.EFFECT_END,satFinish);
+				satEffect.play();
+				_saturation = evt.value/100;
+			}
+			
+			private function satFinish(evt:EffectEvent):void {
+				setImage();
+			}
 		]]>
 	</mx:Script>
-	<mx:Image id="colorMap" source="@Embed(source='../images/ColorBox.png')" horizontalCenter="0" mouseMove="getColor(event)" mouseDown="grabColor(event)" creationComplete="onComplete(event)">
+	<mx:Image id="colorMap" source="@Embed(source='../images/ColorBox.png')" mouseMove="getColor(event)" mouseDown="grabColor(event)" creationComplete="onComplete(event)" right="20">
 		<mx:filters>
 			<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5" inner="true"/>
 		</mx:filters>
 	</mx:Image>
-	<mx:Canvas id="setCanvas" width="125" height="20" horizontalCenter="-62" top="202" backgroundColor="{colorVal}" styleName="roundedCanvas">
+	<mx:VSlider id="satSlider" height="200" right="0" top="0" minimum="0" maximum="100" snapInterval="1" value="100" change="setSat(event)"/>
+	<mx:Canvas id="setCanvas" width="125" height="20" top="202" backgroundColor="{colorVal}" styleName="roundedCanvas" right="145">
 		<mx:filters>
 			<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5" inner="true"/>
 		</mx:filters>
 	</mx:Canvas>
-	<mx:Canvas id="browseCanvas" width="125" height="20" horizontalCenter="62" top="202" backgroundColor="#FFFFFF" styleName="roundedCanvas">
+	<mx:Canvas id="browseCanvas" width="125" height="20" top="202" backgroundColor="#FFFFFF" styleName="roundedCanvas" right="20">
 		<mx:filters>
 			<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5" inner="true"/>
 		</mx:filters>
