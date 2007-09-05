@@ -5,6 +5,8 @@
 			import mx.managers.PopUpManager;
 		]]>
 	</mx:Script>
-	<components:ColorGrabber id="colorSample"/>
+	<mx:HBox>
+		<components:ColorGrabber id="colorSample"/>
+	</mx:HBox>
 	<mx:Button id="okbutton" label="Ok"/>
 </mx:TitleWindow>
