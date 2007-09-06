@@ -48,7 +48,7 @@
 			[Bindable]
 			private var colorCollection:ArrayCollection;
 			[Bindable]
-			public var colorListCollection:ArrayCollection;
+			public var colorListCollection:ArrayCollection = new ArrayCollection();
 			
 			private function onComplete():void {
 				//Remember window size and location
