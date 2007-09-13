@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Grid xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:filters="flash.filters.*">
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			public var dataProvider:ArrayCollection;
+			
+			private function colorString(inVal:uint):String {
+				var fillString:String = "000000";
+				var tempString:String = "";
+				
+				tempString = fillString + inVal.toString(16);
+				tempString = tempString.substr(tempString.length-6,6);
+				
+				return tempString.toUpperCase();
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:GridRow width="100%" height="100%">
+		<mx:Repeater id="gridItemRepeat" dataProvider="{dataProvider}">
+			<mx:GridItem width="100%" height="100%">
+				<mx:Label id="hexCol" styleName="colorLabel" selectable="true" text="{'#'+colorString(gridItemRepeat.currentItem as uint)}"/>
+			</mx:GridItem>
+		</mx:Repeater>
+	</mx:GridRow>
+	<mx:filters>
+		<filters:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5"/>
+		<filters:BevelFilter angle="80" distance="1" shadowAlpha="0.4" highlightAlpha="0.5"/>
+	</mx:filters>
+</mx:Grid>

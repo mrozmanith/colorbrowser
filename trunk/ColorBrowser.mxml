@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" minimumWidth="510" minimumHeight="450" width="600" height="600">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" minimumWidth="510" minimumHeight="450" width="720" height="600">
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
@@ -63,7 +63,7 @@
 					colorFileStream.open(colorFile, FileMode.UPDATE);
 					colorListCollection = colorFileStream.readObject() as ArrayCollection;
 				}
-				//Need to create a new file and startusing it
+				//Need to create a new file and start using it
 				else {
 					var tempFileStream:FileStream = new FileStream();
 					tempFileStream.open(colorFile,FileMode.WRITE);
@@ -92,6 +92,7 @@
 					try {
 						tempFile = new File(tempString);
 						if(tempFile.extension == "color") {
+							//TODO: Use prompt when opening a file with the open button also.
 							inFile = tempFile;
 							Alert.show("Do you want to save your current color set?","Alert",Alert.YES|Alert.NO,main,handleFile,null,Alert.YES);
 						}
@@ -277,6 +278,7 @@
 			//Show the single preview when double clicking
 			private function singleShow(evt:Event):void {
 				singleSet.dataProvider = evt.currentTarget.selectedItem.data;
+				singleSetHex.dataProvider = evt.currentTarget.selectedItem.data;
 				singleView.visible = true;
 			}
 		]]>
@@ -288,16 +290,18 @@
 				<mx:Button label="Save" icon="@Embed('images/save.png')" height="22" click="outFileClick()"/>
 				<mx:VRule height="15"/>
 				<mx:Button label="New" icon="@Embed('images/new.png')" height="22" click="addItem()"/>
+				<mx:Button label="From Image" height="22"/>
 				<mx:Button label="Edit" enabled="{colorDisplayList.selectedItem}" click="editItem()" icon="@Embed('images/edit-colors.png')"/>
 				<mx:Button label="Duplicate" enabled="{colorDisplayList.selectedItem}" click="duplicateItem()" icon="@Embed('images/duplicate.png')"/>
-				<mx:Button click="deleteItem()" icon="@Embed('images/delete.png')" height="22" toolTip="Delete" enabled="{colorDisplayList.selectedItem}" label="Delete"/>
+				<mx:Button label="Delete" click="deleteItem()" icon="@Embed('images/delete.png')" height="22" toolTip="Delete" enabled="{colorDisplayList.selectedItem}"/>
 			</mx:HBox>
 			<mx:TileList id="colorDisplayList" width="100%" height="100%" dataProvider="{colorListCollection}" itemRenderer="components.ColorSetRenderer" columnWidth="120" dragEnabled="true" dropEnabled="true" dragMoveEnabled="true" doubleClickEnabled="true" doubleClick="singleShow(event)"/>
 		</mx:VBox>
 		<comp:ColorEdit id="editBox" horizontalCenter="0" verticalCenter="-30" visible="false"/>
-		<mx:VBox id="singleView" top="5" left="5" bottom="5" right="5" styleName="singlePreview" visible="false" showEffect="Fade" hideEffect="Fade">
-			<comp:ColorSet id="singleSet" width="100%" height="100%"/>
-			<mx:Button id="closeSingle" label="Close" click="{singleView.visible=false}"/>
-		</mx:VBox>
+		<mx:Canvas id="singleView" top="5" left="5" bottom="5" right="5" styleName="singlePreview" visible="false" showEffect="Fade" hideEffect="Fade">
+			<comp:ColorSet id="singleSet" left="0" right="0" top="0" bottom="40"/>
+			<comp:ColorSetHex id="singleSetHex" left="0" right="0" bottom="40"/>
+			<mx:Button id="closeSingle" label="Close" click="{singleView.visible=false}" horizontalCenter="0" bottom="10"/>
+		</mx:Canvas>
 	</mx:Canvas>
 </mx:WindowedApplication>
