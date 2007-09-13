@@ -1,9 +1,10 @@
 /* CSS file */
 global {
 	color:					#000000;
-	font-family:			"Calibri";
+	font-family:			"Helvetica";
 	highlightAlphas:		0.4, 0.3;
 	theme-color:			#444444;
+	font-size:				11;
 }
 
 WindowedApplication {
@@ -17,7 +18,7 @@ Button {
 	paddingLeft:			4;
 	paddingRight:			2;
 	font-weight:			normal;
-	font-size:				13;
+	font-size:				12;
 }
 
 Canvas {
@@ -62,18 +63,18 @@ TitleWindow {
 }
 
 ToolTip {
-	font-size:				12;
+	font-size:				10;
 }
 
 .colorLabel {
-	font-size:				13;
+	font-size:				12;
 	color:					#FFFFFF;
 }
 
 .hexLabel {
 	padding-left:			0;
 	padding-right:			0;
-	font-size:				14;
+	font-size:				13;
 	color:					#FFFFFF;
 }
 
@@ -100,30 +101,30 @@ ToolTip {
 
 .windowTitle {
 	color:					#FFFFFF;
-	font-size:				15;
+	font-size:				14;
 	font-weight:			normal;
 }
 
 @font-face{
-	src:						url(Calibri.swf);
-	fontFamily:					"Calibri";
+	src:						url(Helvetica.swf);
+	fontFamily:					"Helvetica";
 }
 
 @font-face{
-	src:						url(Calibri.swf);
-	fontFamily:					"Calibri";
+	src:						url(Helvetica.swf);
+	fontFamily:					"Helvetica";
 	fontWeight:					bold;
 }
 
 @font-face{
-	src:						url(Calibri.swf);
-	fontFamily:					"Calibri";
+	src:						url(Helvetica.swf);
+	fontFamily:					"Helvetica";
 	fontStyle:					italic;
 }
 
 @font-face{
-	src:						url(Calibri.swf);
-	fontFamily:					"Calibri";
+	src:						url(Helvetica.swf);
+	fontFamily:					"Helvetica";
 	fontWeight:					bold;
 	fontStyle:					italic;
 }

@@ -61,7 +61,7 @@
 			<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5" inner="true"/>
 		</mx:filters>
 	</mx:Image>
-	<mx:VSlider id="satSlider" height="200" right="0" top="0" minimum="0" maximum="100" snapInterval="1" value="100" change="setSat(event)"/>
+	<mx:VSlider id="satSlider" height="200" right="0" top="0" minimum="0" maximum="100" snapInterval="1" value="100" change="setSat(event)" liveDragging="true"/>
 	<mx:Canvas id="setCanvas" width="125" height="20" top="202" backgroundColor="{colorVal}" styleName="roundedCanvas" right="145">
 		<mx:filters>
 			<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5" inner="true"/>

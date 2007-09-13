@@ -67,7 +67,9 @@
 				editSingle = evt.target.parent as SingleColor;
 				browserWindow = PopUpManager.createPopUp(this,ColorHandler,true) as ColorHandler;
 				PopUpManager.centerPopUp(browserWindow);
-				browserWindow.colorSample.colorVal = editSingle.colorVal;
+				if(editSingle.colorVal) {
+					browserWindow.colorSample.colorVal = editSingle.colorVal;
+				}
 				browserWindow.okbutton.addEventListener(MouseEvent.CLICK,handlerClick);
 			}
 			
