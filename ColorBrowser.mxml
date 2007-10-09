@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" minimumWidth="510" minimumHeight="450" width="720" height="600">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" width="720" height="600">
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
@@ -8,7 +8,6 @@
 			import com.sophware.Util;
 			import flash.events.InvokeEvent;
 			import flash.desktop.DragManager;
-			import flash.desktop.TransferableFormats;
 			import components.ColorEdit;
 			import com.levitation.AirUtil;
 			import mx.controls.Alert;
@@ -55,7 +54,7 @@
 				winUtil = new AirUtil(stage);
 				
 				//Set up file access
-				colorFile = File.applicationStorageDirectory.resolve("saved.color");
+				colorFile = File.applicationStorageDirectory.resolvePath("saved.color");
 				
 				//File exists, use it
 				if(colorFile.exists  && colorFile.size > 10) {
@@ -193,18 +192,18 @@
 			
 			private function closeApp():void {
 				colorFileStream.close();
-				stage.window.close();
+				stage.nativeWindow.close();
 			}
 			
 			private function fileDrag(evt:NativeDragEvent):void {
-				if(evt.transferable.hasFormat(TransferableFormats.FILE_LIST_FORMAT)){
+				if(evt.clipboard.hasFormat(ClipboardFormats.FILE_LIST_FORMAT)){
 					DragManager.acceptDragDrop(colorDisplayList);
 				}
 			}
 			
 			private function acceptDrag(evt:NativeDragEvent):void {
 				DragManager.dropAction = "copy";
-				var tempArray:Array = evt.transferable.dataForFormat(TransferableFormats.FILE_LIST_FORMAT) as Array;
+				var tempArray:Array = evt.clipboard.dataForFormat(ClipboardFormats.FILE_LIST_FORMAT) as Array;
 				dragFileStream = new FileStream();
 				for each(var tempFile:File in tempArray) {
 					if(tempFile.extension == "css") {
