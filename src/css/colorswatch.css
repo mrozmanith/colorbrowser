@@ -1,0 +1,130 @@
+/* CSS file */
+global {
+	color:					#000000;
+	font-family:			"Helvetica";
+	highlightAlphas:		0.4, 0.3;
+	theme-color:			#444444;
+	font-size:				11;
+}
+
+WindowedApplication {
+	backgroundColor:		#333333;
+	background-gradient-alphas:1,1;
+	status-bar-background-color:#333333;
+	status-bar-separator-alpha:0;
+}
+
+Button {
+	paddingLeft:			4;
+	paddingRight:			2;
+	font-weight:			normal;
+	font-size:				12;
+}
+
+Canvas {
+	corner-radius:			6;
+}
+
+Grid {
+	horizontalGap:			0;
+	verticalGap:			0;
+}
+
+GridItem {
+	horizontalGap:			0;
+}
+
+Panel {
+	backgroundColor:		#333333;
+	backgroundAlpha:		1;
+	borderColor:			#333333;
+	borderAlpha:			1;
+	highlightAlphas:		0.4, 0.3;
+	roundedBottomCorners:	true;
+	cornerRadius:			6;
+	headerColors:			#333333, #333333;
+	headerHeight:			24;
+	shadow-distance:		1;
+	titleStyleName:			"windowTitle";
+}
+
+TileList {
+	backgroundColor:		#FFFFFF;
+	backgroundAlpha:		0.25;
+	border-style:			none;
+}
+
+TitleWindow {
+	backgroundColor:		#333333;
+	backgroundAlpha:		1;
+	borderColor:			#333333;
+	borderAlpha:			1;
+	modal-transparency-color:#333333;
+}
+
+ToolTip {
+	font-size:				10;
+}
+
+.colorLabel {
+	font-size:				12;
+	color:					#FFFFFF;
+}
+
+.hexLabel {
+	padding-left:			0;
+	padding-right:			0;
+	font-size:				13;
+	color:					#FFFFFF;
+}
+
+.dropStyle {
+	font-size:				10;
+	corner-radius:			5;
+	rounded-bottom-corners:	true;
+}
+
+.mask {
+	background-color:		#006600;
+	border-style:			solid;
+}
+
+.roundedCanvas {
+	border-style:			solid;
+	border-thickness:		0;
+	corner-radius:			7;
+}
+
+.singlePreview {
+	background-color:		#333333;
+}
+
+.windowTitle {
+	color:					#FFFFFF;
+	font-size:				14;
+	font-weight:			normal;
+}
+
+@font-face{
+	src:						url(Helvetica.swf);
+	fontFamily:					"Helvetica";
+}
+
+@font-face{
+	src:						url(Helvetica.swf);
+	fontFamily:					"Helvetica";
+	fontWeight:					bold;
+}
+
+@font-face{
+	src:						url(Helvetica.swf);
+	fontFamily:					"Helvetica";
+	fontStyle:					italic;
+}
+
+@font-face{
+	src:						url(Helvetica.swf);
+	fontFamily:					"Helvetica";
+	fontWeight:					bold;
+	fontStyle:					italic;
+}
