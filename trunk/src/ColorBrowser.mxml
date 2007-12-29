@@ -7,7 +7,6 @@
 			import mx.events.CollectionEvent;
 			import com.sophware.Util;
 			import flash.events.InvokeEvent;
-			import flash.desktop.DragManager;
 			import components.ColorEdit;
 			import com.levitation.AirUtil;
 			import mx.controls.Alert;
@@ -51,7 +50,7 @@
 			
 			private function onComplete():void {
 				//Remember window size and location
-				winUtil = new AirUtil(stage);
+				//winUtil = new AirUtil(stage);
 				
 				//Set up file access
 				colorFile = File.applicationStorageDirectory.resolvePath("saved.color");
@@ -75,7 +74,7 @@
 				colorDisplayList.addEventListener("nativeDragOver",fileDrag);
 				colorDisplayList.addEventListener("nativeDragDrop",acceptDrag);
 				
-				Shell.shell.addEventListener(InvokeEvent.INVOKE,onInvokeEvent);
+				NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE,onInvokeEvent);
 				
 				//Listen for collection changes
 				colorListCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,collectionUpdate);
@@ -197,13 +196,13 @@
 			
 			private function fileDrag(evt:NativeDragEvent):void {
 				if(evt.clipboard.hasFormat(ClipboardFormats.FILE_LIST_FORMAT)){
-					DragManager.acceptDragDrop(colorDisplayList);
+					NativeDragManager.acceptDragDrop(colorDisplayList);
 				}
 			}
 			
 			private function acceptDrag(evt:NativeDragEvent):void {
-				DragManager.dropAction = "copy";
-				var tempArray:Array = evt.clipboard.dataForFormat(ClipboardFormats.FILE_LIST_FORMAT) as Array;
+				NativeDragManager.dropAction = "copy";
+				var tempArray:Array = evt.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
 				dragFileStream = new FileStream();
 				for each(var tempFile:File in tempArray) {
 					if(tempFile.extension == "css") {
