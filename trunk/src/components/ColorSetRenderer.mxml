@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" verticalScrollPolicy="off" horizontalScrollPolicy="off" addedEffect="Fade" removedEffect="Fade">
+	<mx:Label text="{data.name}" styleName="colorLabel" height="22">
+		<mx:filters>
+			<mx:DropShadowFilter angle="90" blurX="4" blurY="4" alpha="0.65" distance="1.5"/>
+		</mx:filters>
+	</mx:Label>
+	<mx:HBox width="100%" horizontalAlign="center">
+		<comp:ColorSet dataProvider="{data.data}" width="110" height="35"/>
+	</mx:HBox>
+</mx:VBox>
