@@ -288,7 +288,7 @@
 				<mx:Button label="Save" icon="@Embed('images/save.png')" height="22" click="outFileClick()"/>
 				<mx:VRule height="15"/>
 				<mx:Button label="New" icon="@Embed('images/new.png')" height="22" click="addItem()"/>
-				<mx:Button label="From Image" height="22"/>
+				<!--<mx:Button label="From Image" height="22"/>-->
 				<mx:Button label="Edit" enabled="{colorDisplayList.selectedItem}" click="editItem()" icon="@Embed('images/edit-colors.png')"/>
 				<mx:Button label="Duplicate" enabled="{colorDisplayList.selectedItem}" click="duplicateItem()" icon="@Embed('images/duplicate.png')"/>
 				<mx:Button label="Delete" click="deleteItem()" icon="@Embed('images/delete.png')" height="22" toolTip="Delete" enabled="{colorDisplayList.selectedItem}"/>

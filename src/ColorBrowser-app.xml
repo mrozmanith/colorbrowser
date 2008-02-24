@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application xmlns="http://ns.adobe.com/air/application/1.0.M6">
+<application xmlns="http://ns.adobe.com/air/application/1.0">
 	<id>com.levitation.ColorBrowser</id>
-	<version>0.73</version>
+	<version>0.8</version>
     <filename>Color Browser</filename>
     
     <name>Color Browser</name>
     
     <description>A simple application used to store color sets from various sources.</description>
     
-    <copyright>Copyright 2007 Levitation Design</copyright>
+    <copyright>Copyright 2008 Levitation Design</copyright>
 
 
   <initialWindow>

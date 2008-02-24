@@ -1,7 +1,7 @@
 /* CSS file */
 global {
 	color:					#000000;
-	font-family:			"Helvetica";
+	/*font-family:			"Helvetica";*/
 	highlightAlphas:		0.4, 0.3;
 	theme-color:			#444444;
 	font-size:				11;
@@ -18,7 +18,8 @@ Button {
 	paddingLeft:			4;
 	paddingRight:			2;
 	font-weight:			normal;
-	font-size:				12;
+	font-size:				13;
+	vertical-align:			middle;
 }
 
 Canvas {
@@ -67,7 +68,7 @@ ToolTip {
 }
 
 .colorLabel {
-	font-size:				12;
+	font-size:				11;
 	color:					#FFFFFF;
 }
 
@@ -105,7 +106,7 @@ ToolTip {
 	font-weight:			normal;
 }
 
-@font-face{
+/*@font-face{
 	src:						url(Helvetica.swf);
 	fontFamily:					"Helvetica";
 }
@@ -127,4 +128,4 @@ ToolTip {
 	fontFamily:					"Helvetica";
 	fontWeight:					bold;
 	fontStyle:					italic;
-}
+}*/
