@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" horizontalAlign="center" creationComplete="onComplete()" dataChange="onComplete()">
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" horizontalAlign="center" creationComplete="onComplete()" dataChange="onComplete()" xmlns:yahoo="http://www.yahoo.com/astra/2006/mxml">
 	<mx:Metadata>
 		[Event(name="colorChange", type="flash.events.Event")]
 	</mx:Metadata>
@@ -39,6 +39,7 @@
 			}
 		]]>
 	</mx:Script>
-	<comp:ShadowCanvas backgroundColor="{colorVal}"/>
+	<yahoo:DropDownColorPicker selectedColor="{colorVal}" pickerRenderer="com.yahoo.astra.mx.controls.colorPickerClasses.AdvancedColorPickerDropDown"/>
+	<!--<comp:ShadowCanvas backgroundColor="{colorVal}"/>-->
 	<mx:TextInput width="60" text="{colorString(colorVal)}" change="stringChange(event)" restrict="0-9a-f" textAlign="center" fontSize="13"/>
 </mx:VBox>
