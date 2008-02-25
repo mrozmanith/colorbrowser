@@ -30,7 +30,7 @@
 				var tempArray:Array = new Array();
 				
 				for(var i:int = 0; i< colorBox.length; i++) {
-					tempArray.push(colorBox[i].colorVal);
+					tempArray.push(colorBox[i].picker.selectedColor);
 				}
 				
 				if(editing) {
@@ -57,7 +57,7 @@
 				var tempArray:Array = new Array();
 				
 				for(var i:int = 0; i< colorBox.length; i++) {
-					tempArray.push(colorBox[i].colorVal);
+					tempArray.push(colorBox[i].picker.selectedColor);
 				}
 				
 				_colorSet = new ArrayCollection(tempArray);

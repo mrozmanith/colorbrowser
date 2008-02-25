@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application xmlns="http://ns.adobe.com/air/application/1.0">
 	<id>com.levitation.ColorBrowser</id>
-	<version>0.8</version>
+	<version>0.9</version>
     <filename>Color Browser</filename>
     
     <name>Color Browser</name>
