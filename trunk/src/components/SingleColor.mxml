@@ -39,7 +39,7 @@
 			}
 		]]>
 	</mx:Script>
-	<yahoo:DropDownColorPicker selectedColor="{colorVal}" pickerRenderer="com.yahoo.astra.mx.controls.colorPickerClasses.AdvancedColorPickerDropDown"/>
+	<yahoo:DropDownColorPicker id="picker" selectedColor="{colorVal}" pickerRenderer="com.yahoo.astra.mx.controls.colorPickerClasses.AdvancedColorPickerDropDown"/>
 	<!--<comp:ShadowCanvas backgroundColor="{colorVal}"/>-->
-	<mx:TextInput width="60" text="{colorString(colorVal)}" change="stringChange(event)" restrict="0-9a-f" textAlign="center" fontSize="13"/>
+	<mx:TextInput width="60" text="{colorString(picker.selectedColor)}" change="stringChange(event)" restrict="0-9a-f" textAlign="center" fontSize="13"/>
 </mx:VBox>
