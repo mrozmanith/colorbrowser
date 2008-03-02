@@ -3,6 +3,8 @@
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
+			import com.codeazur.utils.AIRRemoteUpdaterEvent;
+			import com.codeazur.utils.AIRRemoteUpdater;
 			import mx.events.CloseEvent;
 			import mx.events.CollectionEvent;
 			import com.sophware.Util;
@@ -32,6 +34,9 @@
 			private var inFileStream:FileStream;
 			private var dragFile:File; //File dropped on app
 			private var dragFileStream:FileStream;
+			
+			private var updater:AIRRemoteUpdater;
+			private var request:URLRequest = new URLRequest("http://www.levitationdesign.com/ColorBrowser.air");
 			
 			private var invokeVar:Boolean;
 			
@@ -78,6 +83,38 @@
 				
 				//Listen for collection changes
 				colorListCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,collectionUpdate);
+				update();
+			}
+			
+			//Handle updating vie Codeazur's AIRUpdater
+			public function update():void {
+				updater = new AIRRemoteUpdater();
+				updater.addEventListener(AIRRemoteUpdaterEvent.VERSION_CHECK, updaterVersionCheckHandler);
+				updater.addEventListener(AIRRemoteUpdaterEvent.UPDATE, updaterUpdateHandler);
+				updater.update(request);
+			}
+			
+			protected function updaterVersionCheckHandler(evt:AIRRemoteUpdaterEvent):void {
+				evt.preventDefault();
+				var updater:AIRRemoteUpdater = evt.target as AIRRemoteUpdater;
+				trace("Local version: " + updater.localVersion);
+				trace("Remote version: " + updater.remoteVersion);
+				if(updater.localVersion < updater.remoteVersion) {
+					Alert.show("Version "+updater.remoteVersion+" is available.  Would you like to download and install it?","New Version",Alert.YES|Alert.NO,this,updaterClick,null,Alert.YES);
+				}
+			}
+			
+			protected function updaterClick(evt:CloseEvent):void {
+				if(evt.detail == Alert.YES) {
+					updater.update(request,false);
+				}
+				else {
+					trace("You clicked NO");
+				}
+			}
+			
+			protected function updaterUpdateHandler(evt:AIRRemoteUpdaterEvent):void {
+				trace("Installer: " + evt.file.nativePath);
 			}
 			
 			//Referenced when a .color file is double clicked in the OS
