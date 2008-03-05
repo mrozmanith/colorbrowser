@@ -3,6 +3,8 @@
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
+			import com.adobe.air.alert.AlertEvent;
+			import com.adobe.air.alert.NativeAlert;
 			import com.codeazur.utils.AIRRemoteUpdaterEvent;
 			import com.codeazur.utils.AIRRemoteUpdater;
 			import mx.events.CloseEvent;
@@ -11,7 +13,6 @@
 			import flash.events.InvokeEvent;
 			import components.ColorEdit;
 			import com.levitation.AirUtil;
-			import mx.controls.Alert;
 			import mx.managers.CursorManager;
 			import mx.events.DragEvent;
 			import mx.events.ResizeEvent;
@@ -100,12 +101,12 @@
 				trace("Local version: " + updater.localVersion);
 				trace("Remote version: " + updater.remoteVersion);
 				if(updater.localVersion < updater.remoteVersion) {
-					Alert.show("Version "+updater.remoteVersion+" is available.  Would you like to download and install it?","New Version",Alert.YES|Alert.NO,this,updaterClick,null,Alert.YES);
+					NativeAlert.show("Version "+updater.remoteVersion+" is available.  Would you like to download and install it?","New Version",NativeAlert.YES|NativeAlert.NO,true,this as NativeWindow,updaterClick);
 				}
 			}
 			
-			protected function updaterClick(evt:CloseEvent):void {
-				if(evt.detail == Alert.YES) {
+			protected function updaterClick(evt:AlertEvent):void {
+				if(evt.detail == NativeAlert.YES) {
 					updater.update(request,false);
 				}
 				else {
@@ -129,7 +130,7 @@
 						if(tempFile.extension == "color") {
 							//TODO: Use prompt when opening a file with the open button also.
 							inFile = tempFile;
-							Alert.show("Do you want to save your current color set?","Alert",Alert.YES|Alert.NO,main,handleFile,null,Alert.YES);
+							NativeAlert.show("Do you want to save your current color set?","Alert",NativeAlert.YES|NativeAlert.NO,true,this as NativeWindow,handleFile);
 						}
 					}
 					catch(err:Error) {
@@ -138,8 +139,8 @@
 				}
 			}
 			
-			private function handleFile(evt:CloseEvent):void {
-				if(evt.detail == Alert.YES) {
+			private function handleFile(evt:AlertEvent):void {
+				if(evt.detail == NativeAlert.YES) {
 					invokeVar = true;
 					outFileClick();
 				}
@@ -198,7 +199,7 @@
 					saveFile.addEventListener(Event.SELECT, saveColors);
 				}
 				catch (error:Error) {
-					Alert.show("Failed: "+error.message,"Save failed");
+					NativeAlert.show("Failed: "+error.message,"Save failed");
 				}
 			}
 			
@@ -249,7 +250,7 @@
 						translateAse(tempFile);
 					}
 					else {
-						Alert.show("Sorry, I don't recognize that file format.");
+						NativeAlert.show("Sorry, I don't recognize that file format.");
 					}
 				}
 			}
@@ -270,7 +271,7 @@
 					colorListCollection.addItem({data:new ArrayCollection(tempColors),name:tempName,string:tempString});
 				}
 				else {
-					Alert.show("Not a valid ColourLovers CSS file","Error");
+					NativeAlert.show("Not a valid ColourLovers CSS file","Error");
 				}
 			}
 			
