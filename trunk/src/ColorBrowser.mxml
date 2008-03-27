@@ -3,6 +3,7 @@
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
+			import mx.events.MenuEvent;
 			import com.adobe.air.alert.AlertEvent;
 			import com.adobe.air.alert.NativeAlert;
 			import com.codeazur.utils.AIRRemoteUpdaterEvent;
@@ -53,6 +54,15 @@
 			private var colorCollection:ArrayCollection;
 			[Bindable]
 			public var colorListCollection:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			private var importMenu:XMLList = 
+					<>
+					<menuitem label="Import" data="top">
+                        <menuitem label="ASE" data="importAse" filterLabel="Adobe Swatch Exchange" filter="*.ase"/>
+                        <menuitem label="CSS" data="importCss" filterLabel="ColourLover's CSS" filter="*.css"/>
+                    </menuitem>
+                 	</>;
 			
 			private function onComplete():void {
 				//Remember window size and location
@@ -257,9 +267,10 @@
 			
 			//Takes a downloaded ColourLovers CSS file and creates a color set
 			private function translateColourLover(inFile:File):void {
-				dragFileStream.open(inFile,FileMode.READ);
-				var tempString:String = dragFileStream.readMultiByte(dragFileStream.bytesAvailable,"us-ascii");
-				dragFileStream.close();
+				var fs:FileStream = new FileStream();
+				fs.open(inFile,FileMode.READ);
+				var tempString:String = fs.readMultiByte(fs.bytesAvailable,"us-ascii");
+				fs.close();
 				
 				if(tempString.indexOf("/* COLOURlovers.com") != -1) {
 					var tempArray:Array = tempString.split(".color");
@@ -278,11 +289,13 @@
 			//To use when translating an ASE file, currently very incomplete
 			private function translateAse(inFile:File):void {
 				trace("Path: "+inFile.nativePath);
-				dragFileStream.open(inFile,FileMode.READ);
-				//trace(dragFileStream.bytesAvailable);
+				var fs:FileStream = new FileStream();
+				fs.open(inFile,FileMode.READ);
+				//trace(fs.bytesAvailable);
+				
 				var tempBytes:ByteArray = new ByteArray();
-				dragFileStream.readBytes(tempBytes,0,dragFileStream.bytesAvailable);
-				dragFileStream.close();
+				fs.readBytes(tempBytes,0,fs.bytesAvailable);
+				fs.close();
 				
 				var tempNum:Number = tempBytes.bytesAvailable;
 				var colorSetArray:Array = new Array();
@@ -311,6 +324,36 @@
 				}
 			}
 			
+			private var importFile:File;
+			private function importClickHandler(event:MenuEvent):void {
+				
+				if (event.item.@data != "top") {
+					var imagesFilter:FileFilter = new FileFilter(event.item.@filterLabel, event.item.@filter);
+					importFile = new File();
+					importFile.browseForOpen("Select a file to import", [imagesFilter]);
+					importFile.addEventListener(Event.SELECT, importFileSelected);
+				}
+			}
+ 
+			private function importFileSelected(event:Event):void
+			{
+//				importFile = File(event.target);
+				switch(importFile.extension.toLowerCase())
+				{
+				case "ase":
+					translateAse(importFile);
+					importFile = null;
+					break;
+				case "css":
+					translateColourLover(importFile);
+					importFile = null;
+					break;
+				default:
+					trace("unsupported import format");
+					break;
+				}
+			}			
+  
 			//Show the single preview when double clicking
 			private function singleShow(evt:Event):void {
 				singleSet.dataProvider = evt.currentTarget.selectedItem.data;
@@ -339,5 +382,6 @@
 			<comp:ColorSetHex id="singleSetHex" left="0" right="0" bottom="40"/>
 			<mx:Button id="closeSingle" label="Close" click="{singleView.visible=false}" horizontalCenter="0" bottom="10"/>
 		</mx:Canvas>
+		<mx:MenuBar right="10" top="10" dataProvider="{importMenu}" itemClick="importClickHandler(event)" labelField="@label"></mx:MenuBar>
 	</mx:Canvas>
 </mx:WindowedApplication>
