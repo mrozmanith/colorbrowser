@@ -100,7 +100,7 @@
 				trace(evt.target);
 				switch(evt.target.label) {
 					case "Open ASE":
-						var imagesFilter:FileFilter = new FileFilter("Adobe Swatch Exchange", "*.ase");
+						var imagesFilter:FileFilter = new FileFilter("Adobe Swatch Exchange (*.ase)", "*.ase");
 						importFile = new File();
 						importFile.browseForOpen("Select a file to import", [imagesFilter]);
 						importFile.addEventListener(Event.SELECT, importFileSelected);
