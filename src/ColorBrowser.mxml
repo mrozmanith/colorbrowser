@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" width="720" height="600">
+	<mx:states>
+		<mx:State name="singleView">
+			<mx:SetProperty target="{singleView}" name="visible" value="true"/>
+		</mx:State>
+	</mx:states>
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
@@ -86,8 +91,8 @@
 				}
 				
 				//Set up app to accept drag
-				colorDisplayList.addEventListener("nativeDragOver",fileDrag);
-				colorDisplayList.addEventListener("nativeDragDrop",acceptDrag);
+				addEventListener(NativeDragEvent.NATIVE_DRAG_OVER,fileDragAccept);
+				addEventListener(NativeDragEvent.NATIVE_DRAG_DROP,fileDragDrop);
 				
 				NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE,onInvokeEvent);
 				
@@ -248,7 +253,7 @@
 			private function inFileClick():void {
 				inFile = new File();
 				inFile.addEventListener( Event.SELECT, copyFile );
-				inFile.browse( new Array( new FileFilter( "Color Files", "*.color" ) ) );
+				inFile.browse( new Array( new FileFilter( "Color Files (*.color)", "*.color" ) ) );
 			}
 			private function copyFile(evt:Event):void {
 				colorFileStream.close();
@@ -262,18 +267,18 @@
 				stage.nativeWindow.close();
 			}
 			
-			private function fileDrag(evt:NativeDragEvent):void {
+			private function fileDragAccept(evt:NativeDragEvent):void {
 				if(evt.clipboard.hasFormat(ClipboardFormats.FILE_LIST_FORMAT)){
-					NativeDragManager.acceptDragDrop(colorDisplayList);
+					NativeDragManager.dropAction = NativeDragActions.COPY;
+					NativeDragManager.acceptDragDrop(this);
 				}
 			}
 			
-			private function acceptDrag(evt:NativeDragEvent):void {
-				NativeDragManager.dropAction = "copy";
+			private function fileDragDrop(evt:NativeDragEvent):void {
+				NativeDragManager.dropAction = NativeDragActions.COPY;
 				var tempArray:Array = evt.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
-				dragFileStream = new FileStream();
 				for each(var tempFile:File in tempArray) {
-					if(tempFile.extension == "ase") {
+					if(tempFile.extension.toLowerCase() == "ase") {
 						translateAse(tempFile);
 					}
 					else {
@@ -320,16 +325,8 @@
 				}
 			}
 			
-			private function importClickHandler(event:MenuEvent):void {
-				if (event.item.@data != "top") {
-					var imagesFilter:FileFilter = new FileFilter(event.item.@filterLabel, event.item.@filter);
-					importFile = new File();
-					importFile.browseForOpen("Select a file to import", [imagesFilter]);
-					importFile.addEventListener(Event.SELECT, importFileSelected);
-				}
-			}
- 
-			private function importFileSelected(event:Event):void {
+			private function importFileSelected(event:Event):void
+			{
 //				importFile = File(event.target);
 				switch(importFile.extension.toLowerCase())
 				{
@@ -337,11 +334,15 @@
 					translateAse(importFile);
 					importFile = null;
 					break;
+				case "css":
+//					translateColourLover(importFile);
+					importFile = null;
+//					break;
 				default:
 					trace("unsupported import format");
 					break;
 				}
-			}			
+			}	
   
 			//Show the single preview when double clicking
 			private function singleShow(evt:Event):void {
@@ -376,7 +377,7 @@
 		<mx:Canvas id="singleView" top="5" left="5" bottom="5" right="5" styleName="singlePreview" visible="false" showEffect="Fade" hideEffect="Fade">
 			<comp:ColorSet id="singleSet" left="0" right="0" top="0" bottom="40"/>
 			<comp:ColorSetHex id="singleSetHex" left="0" right="0" bottom="40"/>
-			<mx:Button id="closeSingle" label="Close" click="{singleView.visible=false}" horizontalCenter="0" bottom="10"/>
+			<mx:Button id="closeSingle" label="Close" click="{currentState = ''}" horizontalCenter="0" bottom="10"/>
 		</mx:Canvas>
 	</mx:Canvas>
 </mx:WindowedApplication>
