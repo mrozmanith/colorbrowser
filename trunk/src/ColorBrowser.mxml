@@ -3,6 +3,7 @@
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
+			import mx.managers.DragManager;
 			import mx.events.MenuEvent;
 			import com.adobe.air.alert.AlertEvent;
 			import com.adobe.air.alert.NativeAlert;
@@ -87,8 +88,8 @@
 				}
 				
 				//Set up app to accept drag
-				colorDisplayList.addEventListener("nativeDragOver",fileDrag);
-				colorDisplayList.addEventListener("nativeDragDrop",acceptDrag);
+				addEventListener(NativeDragEvent.NATIVE_DRAG_DROP, fileDragDrop);
+				addEventListener(NativeDragEvent.NATIVE_DRAG_OVER, fileDragAccept);
 				
 				NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE,onInvokeEvent);
 				
@@ -96,6 +97,7 @@
 				colorListCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE,collectionUpdate);
 				update();
 			}
+			
 			
 			//Handle updating vie Codeazur's AIRUpdater
 			public function update():void {
@@ -242,21 +244,21 @@
 				stage.nativeWindow.close();
 			}
 			
-			private function fileDrag(evt:NativeDragEvent):void {
+			private function fileDragAccept(evt:NativeDragEvent):void {
 				if(evt.clipboard.hasFormat(ClipboardFormats.FILE_LIST_FORMAT)){
-					NativeDragManager.acceptDragDrop(colorDisplayList);
+					NativeDragManager.dropAction = NativeDragActions.COPY;
+					NativeDragManager.acceptDragDrop(this);
 				}
 			}
 			
-			private function acceptDrag(evt:NativeDragEvent):void {
-				NativeDragManager.dropAction = "copy";
+			private function fileDragDrop(evt:NativeDragEvent):void {
+				NativeDragManager.dropAction = NativeDragActions.COPY;
 				var tempArray:Array = evt.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
-				dragFileStream = new FileStream();
 				for each(var tempFile:File in tempArray) {
-					if(tempFile.extension == "css") {
+					if(tempFile.extension.toLowerCase() == "css") {
 						translateColourLover(tempFile);
 					}
-					else if(tempFile.extension == "ase") {
+					else if(tempFile.extension.toLowerCase() == "ase") {
 						translateAse(tempFile);
 					}
 					else {
