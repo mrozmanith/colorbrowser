@@ -348,7 +348,7 @@
 			private function singleShow(evt:Event):void {
 				singleSet.dataProvider = evt.currentTarget.selectedItem.data;
 				singleSetHex.dataProvider = evt.currentTarget.selectedItem.data;
-				singleView.visible = true;
+				currentState = 'singleView';
 			}
 		]]>
 	</mx:Script>
