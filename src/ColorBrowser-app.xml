@@ -30,8 +30,6 @@
         <image32x32>icons/Color-Browser32.png</image32x32>   
         <image48x48>icons/Color-Browser48.png</image48x48>    
         <image128x128>icons/Color-Browser128.png</image128x128>
-        <image256x256>icons/Color-Browser256.png</image256x256>
-        <image512x512>icons/Color-Browser512.png</image512x512>
     </icon>
 
   <fileTypes>
