@@ -350,6 +350,10 @@
 				singleSetHex.dataProvider = evt.currentTarget.selectedItem.data;
 				currentState = 'singleView';
 			}
+			
+			private function checkText():void {
+				
+			}
 		]]>
 	</mx:Script>
 	
