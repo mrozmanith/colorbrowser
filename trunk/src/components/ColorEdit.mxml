@@ -63,16 +63,6 @@
 				_colorSet = new ArrayCollection(tempArray);
 			}
 			
-			private function showBrowser(evt:MouseEvent):void {
-				editSingle = evt.target.parent as SingleColor;
-				browserWindow = PopUpManager.createPopUp(this,ColorHandler,true) as ColorHandler;
-				PopUpManager.centerPopUp(browserWindow);
-				if(editSingle.colorVal) {
-					browserWindow.colorSample.colorVal = editSingle.colorVal;
-				}
-				browserWindow.okbutton.addEventListener(MouseEvent.CLICK,handlerClick);
-			}
-			
 			public function handlerClick(evt:MouseEvent):void {
 				editSingle.colorVal = browserWindow.colorSample.colorVal;
 				PopUpManager.removePopUp(browserWindow);
@@ -92,7 +82,7 @@
 	<mx:HBox verticalAlign="top">
 		<mx:Tile width="350">
 			<mx:Repeater id="colorRow" dataProvider="{_colorSet}" recycleChildren="true">
-				<components:SingleColor id="colorBox" colorVal="{colorRow.currentItem as uint}" colorChange="updateColor(event)" doubleClickEnabled="true" doubleClick="showBrowser(event)"/>
+				<components:SingleColor id="colorBox" colorVal="{colorRow.currentItem as uint}" colorChange="updateColor(event)"/>
 			</mx:Repeater>
 		</mx:Tile>
 		<mx:VBox>
