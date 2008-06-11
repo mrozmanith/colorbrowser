@@ -8,7 +8,6 @@
 			import mx.collections.ArrayCollection;
 			
 			private var _colorObject:Object;
-			private var browserWindow:ColorHandler;
 			private var editSingle:SingleColor;
 			public var editing:Boolean;
 			[Bindable] private var _colorSet:ArrayCollection;
@@ -63,11 +62,11 @@
 				_colorSet = new ArrayCollection(tempArray);
 			}
 			
-			public function handlerClick(evt:MouseEvent):void {
+			/*public function handlerClick(evt:MouseEvent):void {
 				editSingle.colorVal = browserWindow.colorSample.colorVal;
 				PopUpManager.removePopUp(browserWindow);
 				updateColor(evt);
-			}
+			}*/
 		]]>
 	</mx:Script>
 	

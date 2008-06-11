@@ -8,6 +8,7 @@
 	<mx:Style source="css/colorswatch.css"/>
 	<mx:Script>
 		<![CDATA[
+			import com.sophware.PaletteModel;
 			import com.adobe.DeclarativeMenu;
 			import mx.events.MenuEvent;
 			import com.adobe.air.alert.AlertEvent;
@@ -19,7 +20,6 @@
 			import com.sophware.Util;
 			import flash.events.InvokeEvent;
 			import components.ColorEdit;
-			import com.levitation.AirUtil;
 			import mx.managers.CursorManager;
 			import mx.events.DragEvent;
 			import mx.events.ResizeEvent;
@@ -57,7 +57,8 @@
 			private var dropAlpha:Number = 0.65;
 			
 			[Bindable]
-			private var colorCollection:ArrayCollection;
+			private var currentPalette:PaletteModel;
+			//private var colorCollection:ArrayCollection;
 			[Bindable]
 			public var colorListCollection:ArrayCollection = new ArrayCollection();
 			
@@ -102,18 +103,20 @@
 			}
 			
 			private function menuHandler(evt:Event):void {
-				trace(evt.target);
 				switch(evt.target.label) {
-					case "Open ASE":
+					case "Import ASE":
 						var imagesFilter:FileFilter = new FileFilter("Adobe Swatch Exchange (*.ase)", "*.ase");
 						importFile = new File();
 						importFile.browseForOpen("Select a file to import", [imagesFilter]);
 						importFile.addEventListener(Event.SELECT, importFileSelected);
 						break;
-					case "Import Collection":
+					case "Export ASE":
+						trace("Export");
+						break;
+					case "Restore Collection":
 						inFileClick();
 						break;
-					case "Export Collection":
+					case "Backup Collection":
 						outFileClick();
 						break;
 					default:
@@ -122,7 +125,7 @@
 				}
 			}
 			
-			//Handle updating vie Codeazur's AIRUpdater
+			//Handle updating via Codeazur's AIRUpdater
 			public function update():void {
 				updater = new AIRRemoteUpdater();
 				updater.addEventListener(AIRRemoteUpdaterEvent.VERSION_CHECK, updaterVersionCheckHandler);
@@ -188,8 +191,9 @@
 				writeCollection(colorListCollection);
 			}
 			
-			private function renderColor(inCollection:Object):void {
-				colorCollection = inCollection.data as ArrayCollection;
+			private function renderColor(inPalette:Object):void {
+				currentPalette = inPalette as PaletteModel;
+				//colorCollection = inCollection.data as ArrayCollection;
 			}
 			
 			private function setColor(inObject:Container,rgb:String):void {
@@ -360,9 +364,10 @@
 	<mx:XML id="menuItems" xmlns="">
 		<root>
 			<FileMenu label='File'>
-				<Open label='Open ASE'/>
-				<Import label='Import Collection'/>
-				<Export label='Export Collection'/>
+				<Open label='Import ASE'/>
+				<Save label='Export ASE'/>
+				<Import label='Restore Collection'/>
+				<Export label='Backup Collection'/>
 			</FileMenu>
 		</root>
 	</mx:XML>
