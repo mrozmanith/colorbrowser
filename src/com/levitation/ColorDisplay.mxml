@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" backgroundColor="{color}" mouseOver="showItems()" mouseOut="hideItems()" verticalScrollPolicy="off" horizontalScrollPolicy="off" xmlns:yahoo="http://www.yahoo.com/astra/2006/mxml" minWidth="{minVal}" creationComplete="onComplete()">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ColorPickerEvent;
+			
+			private var _color:uint = 0;
+			[Bindable] private var minVal:Number = 0;
+			[Bindable] private var _colorString:String = "#000000";
+			
+			[Bindable]
+			public function set color(inValue:uint):void {
+				_color = inValue;
+				_colorString = colorString(inValue);
+			}
+			public function get color():uint {
+				return _color;
+			}
+			
+			private function onComplete():void {
+				if(this.parent.parent.parent.parent is Canvas){
+					minVal=80;
+				}
+			}
+			
+			private function colorString(inVal:uint):String {
+				var fillString:String = "000000";
+				var tempString:String = "";
+				
+				tempString = fillString + inVal.toString(16);
+				tempString = tempString.substr(tempString.length-6,6);
+				
+				return "#"+tempString.toUpperCase();
+			}
+			
+			private function colorChange(evt:ColorPickerEvent):void {
+				color = evt.color;
+			}
+			
+			private function hideItems():void {
+				removeButton.visible = false;
+				picker.visible = false;
+			}
+			
+			private function showItems():void {
+				if(this.parent.parent.parent.parent is Canvas) {
+					removeButton.visible = true;
+					picker.visible = true;
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:Button id="removeButton" label="-" right="3" top="3" visible="false"/>
+	<mx:Label id="hexString" text="{_colorString}" left="3" top="25" visible="{this.parent.parent.parent.parent is Canvas}" styleName="whiteShadowed"/>
+	<yahoo:DropDownColorPicker id="picker" selectedColor="{color}" viewerRenderer="com.yahoo.astra.mx.controls.colorPickerClasses.DefaultColorViewer" pickerRenderer="com.yahoo.astra.mx.controls.colorPickerClasses.AdvancedColorPickerDropDown" left="0" top="0" change="colorChange(event)" visible="false"/>
+</mx:Canvas>
