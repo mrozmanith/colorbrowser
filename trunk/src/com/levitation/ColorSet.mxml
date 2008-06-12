@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Grid xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:filters="flash.filters.*">
+<mx:Grid xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:filters="flash.filters.*" xmlns:levitation="com.levitation.*">
 	<mx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
@@ -11,7 +11,9 @@
 	
 	<mx:GridRow width="100%" height="100%">
 		<mx:Repeater id="gridItemRepeat" dataProvider="{dataProvider}">
-			<mx:GridItem id="col" backgroundColor="{gridItemRepeat.currentItem as uint}" width="100%" height="100%"/>
+			<mx:GridItem id="col" width="100%" height="100%">
+				<levitation:ColorDisplay color="{gridItemRepeat.currentItem as uint}" width="100%" height="100%"/>
+			</mx:GridItem>
 		</mx:Repeater>
 	</mx:GridRow>
 	<mx:filters>

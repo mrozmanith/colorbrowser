@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" title="Color Editor" xmlns:filters="flash.filters.*" xmlns:components="components.*">
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" title="Color Editor" xmlns:filters="flash.filters.*" xmlns:comp="com.levitation.*">
 	<mx:Script>
 		<![CDATA[
 			import mx.managers.PopUpManager;
@@ -81,7 +81,7 @@
 	<mx:HBox verticalAlign="top">
 		<mx:Tile width="350">
 			<mx:Repeater id="colorRow" dataProvider="{_colorSet}" recycleChildren="true">
-				<components:SingleColor id="colorBox" colorVal="{colorRow.currentItem as uint}" colorChange="updateColor(event)"/>
+				<comp:SingleColor id="colorBox" colorVal="{colorRow.currentItem as uint}" colorChange="updateColor(event)"/>
 			</mx:Repeater>
 		</mx:Tile>
 		<mx:VBox>

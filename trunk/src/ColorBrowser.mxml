@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="components.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" width="720" height="600">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="com.levitation.*" layout="absolute" xmlns:filters="flash.filters.*" xmlns:controls="flexlib.controls.*" applicationComplete="onComplete()" width="720" height="600">
 	<mx:states>
 		<mx:State name="singleView">
 			<mx:SetProperty target="{singleView}" name="visible" value="true"/>
@@ -19,7 +19,7 @@
 			import mx.events.CollectionEvent;
 			import com.sophware.Util;
 			import flash.events.InvokeEvent;
-			import components.ColorEdit;
+			import com.levitation.ColorEdit;
 			import mx.managers.CursorManager;
 			import mx.events.DragEvent;
 			import mx.events.ResizeEvent;
@@ -351,7 +351,7 @@
 			//Show the single preview when double clicking
 			private function singleShow(evt:Event):void {
 				singleSet.dataProvider = evt.currentTarget.selectedItem.data;
-				singleSetHex.dataProvider = evt.currentTarget.selectedItem.data;
+				//singleSetHex.dataProvider = evt.currentTarget.selectedItem.data;
 				currentState = 'singleView';
 			}
 			
@@ -380,12 +380,12 @@
 				<mx:Button label="Duplicate" enabled="{colorDisplayList.selectedItem}" click="duplicateItem()" icon="@Embed('images/duplicate.png')"/>
 				<mx:Button label="Delete" click="deleteItem()" icon="@Embed('images/delete.png')" height="22" toolTip="Delete" enabled="{colorDisplayList.selectedItem}"/>
 			</mx:HBox>
-			<mx:TileList id="colorDisplayList" width="100%" height="100%" dataProvider="{colorListCollection}" itemRenderer="components.ColorSetRenderer" columnWidth="120" dragEnabled="true" dropEnabled="true" dragMoveEnabled="true" doubleClickEnabled="true" doubleClick="singleShow(event)"/>
+			<mx:TileList id="colorDisplayList" width="100%" height="100%" dataProvider="{colorListCollection}" itemRenderer="com.levitation.ColorSetRenderer" columnWidth="120" dragEnabled="true" dropEnabled="true" dragMoveEnabled="true" doubleClickEnabled="true" doubleClick="singleShow(event)"/>
 		</mx:VBox>
 		<comp:ColorEdit id="editBox" horizontalCenter="0" verticalCenter="-30" visible="false"/>
 		<mx:Canvas id="singleView" top="5" left="5" bottom="5" right="5" styleName="singlePreview" visible="false" showEffect="Fade" hideEffect="Fade">
 			<comp:ColorSet id="singleSet" left="0" right="0" top="0" bottom="40"/>
-			<comp:ColorSetHex id="singleSetHex" left="0" right="0" bottom="40"/>
+			<!--<comp:ColorSetHex id="singleSetHex" left="0" right="0" bottom="40"/>-->
 			<mx:Button id="closeSingle" label="Close" click="{currentState = ''}" horizontalCenter="0" bottom="10"/>
 		</mx:Canvas>
 	</mx:Canvas>
